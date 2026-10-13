@@ -9,25 +9,40 @@
 <body>
     <h1>Resource Foundry</h1>
     <p>Dein eigenes Ressourcen-Imperium beginnt hier.</p>
-
-    <p>Ressourcen</p>
-    <div class="resource-grid">
-    <div class="resource-card"> 
-        <p class="resource-name">Geld</p>
-        <p class="resource-amountM">0</p>
+    <button id="nav-resources">Ressourcen</button>
+    <button id="nav-shop">Shop</button>
+    <div class="resource-view" id="resource-view">
+        <p>Ressourcen</p>
+        <div class="resource-grid">
+            
+            <div class="resource-card">
+                <p class="resource-name">Geld</p>
+                <p class="resource-amountM" id="geld-amount">0</p>
+            </div>
+            <div class="resource-card">
+                <p class="resource-name">Holz</p>
+                <p class="resource-amount" id="wood-amount">0</p>
+                <button id="collect-wood">Holz sammeln</button>
+                <button id="sell-wood">Holz verkaufen</button>
+            </div>
+            <div class="resource-card">
+                <p class="resource-name">Stein</p>
+                <p class="resource-amount" id="stone-amount">0</p>
+                <button id="collect-stone">Stein sammeln</button>
+                <button id="sell-stone">Stein verkaufen</button>
+            </div>
+            <div class="resource-card">
+                <p class="resource-name">Sand</p>
+                <p class="resource-amount" id="sand-amount">0</p>
+                <button id="collect-sand">Sand sammeln</button>
+                <button id="sell-sand">Sand verkaufen</button>
+            </div>
+        </div>
     </div>
-    <div class="resource-card">
-        <p class="resource-name">Holz</p>
-        <p class="resource-amount">0</p>
+    <div class="shop-view" id="shop-view">
+        <h2>Shop</h2>
+        <p>Willkommen im Shop!</p>
     </div>
-    <div class="resource-card">
-        <p class="resource-name">Stein</p>
-        <p class="resource-amount">0</p>
-    </div>
-    <div class="resource-card">
-        <p class="resource-name">Sand</p>
-        <p class="resource-amount">0</p>
-    </div>
-    </div>  
+    <script src="script.js"></script>
 </body>
 </html>
