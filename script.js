@@ -1,6 +1,8 @@
-let wood = 0;
-let stone = 0;
-let sand = 0;
+const resources = {
+    wood: 0,
+    stone: 0,
+    sand: 0
+};
 let geld = 0;
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
@@ -8,48 +10,51 @@ const sandAmount = document.getElementById('sand-amount');
 const geldAmount = document.getElementById('geld-amount');
 
 function updateResources() {
-    woodAmount.textContent = wood;
-    stoneAmount.textContent = stone;
-    sandAmount.textContent = sand;
+    woodAmount.textContent = resources.wood;
+    stoneAmount.textContent = resources.stone;
+    sandAmount.textContent = resources.sand;
     geldAmount.textContent = geld;
     
 }
+function collectResource(resource) {
+    resources[resource]++;
+    updateResources();
+}
 
 const woodCollectButton = document.getElementById('collect-wood');
-woodCollectButton.addEventListener('click', function() {
-    wood++;
-    updateResources();
+woodCollectButton.addEventListener('click', function () {
+    collectResource('wood');
 });
+
 const stoneCollectButton = document.getElementById('collect-stone');
 stoneCollectButton.addEventListener('click', function() {
-    stone++;
-    updateResources();
+    collectResource('stone');
 });
 const sandCollectButton = document.getElementById('collect-sand');
 sandCollectButton.addEventListener('click', function() {
-    sand++;
-    updateResources();
+    collectResource('sand');
 });
+
 const woodSellButton = document.getElementById('sell-wood');
 woodSellButton.addEventListener('click', function() {
-    if (wood > 0) {
-        wood--
+    if (resources.wood > 0) {
+        resources.wood--;
         geld++;
         updateResources();
     }
 });
 const stoneSellButton = document.getElementById('sell-stone');
 stoneSellButton.addEventListener('click', function() {
-    if (stone > 0) {
-        stone--
+    if (resources.stone > 0) {
+        resources.stone--;
         geld++;
         updateResources();
     }
 });
 const sandSellButton = document.getElementById('sell-sand');
 sandSellButton.addEventListener('click', function() {
-    if (sand > 0) {
-        sand--
+    if (resources.sand > 0) {
+        resources.sand--;
         geld++;
         updateResources();
     }
