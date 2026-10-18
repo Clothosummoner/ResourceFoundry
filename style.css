@@ -33,3 +33,6 @@ html {
 .resource-card p {
     margin: 5px 0;
 }
+.shop-view {
+    display: none;
+}

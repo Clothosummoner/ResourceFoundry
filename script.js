@@ -8,6 +8,9 @@ const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
+const shopView = document.getElementById('shop-view');
+const resourceView = document.getElementById('resource-view');
+
 
 function updateResources() {
     woodAmount.textContent = resources.wood;
@@ -56,3 +59,13 @@ sandSellButton.addEventListener('click', function () {
     sellResource('sand');
 });
 
+const shopButton = document.getElementById('nav-shop');
+shopButton.addEventListener('click', function () {
+    resourceView.style.display = 'none';
+    shopView.style.display = 'block';
+});
+const resourceButton = document.getElementById('nav-resources');
+resourceButton.addEventListener('click', function () {
+    shopView.style.display = 'none';
+    resourceView.style.display = 'block';
+});
