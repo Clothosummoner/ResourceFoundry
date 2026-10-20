@@ -52,6 +52,19 @@ function saveGame() {
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
 }
+function loadGame() {
+    const savedGameState = localStorage.getItem('gameState');
+    if (savedGameState) {
+        const gameState = JSON.parse(savedGameState);
+        resources.wood = gameState.resources.wood;
+        resources.stone = gameState.resources.stone;
+        resources.sand = gameState.resources.sand;
+        money = gameState.money;
+        lumberjackCount = gameState.lumberjackCount;
+        updateResources();
+    } 
+}
+loadGame();
 
 const woodCollectButton = document.getElementById('collect-wood');
 woodCollectButton.addEventListener('click', function () {
