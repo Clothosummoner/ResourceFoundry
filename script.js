@@ -5,8 +5,6 @@ const resources = {
 };
 let money = 0;
 let lumberjackCount = 0;
-let lumberjack = 0;
-
 
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
@@ -45,6 +43,14 @@ function buyLumberjack() {
         lumberjackCount++;
         updateResources();
     }
+}
+function saveGame() {
+    const gameState = {
+        resources: resources,
+        money: money,
+        lumberjackCount: lumberjackCount
+    };
+    localStorage.setItem('gameState', JSON.stringify(gameState));
 }
 
 const woodCollectButton = document.getElementById('collect-wood');
@@ -87,6 +93,10 @@ const resourceButton = document.getElementById('nav-resources');
 resourceButton.addEventListener('click', function () {
     shopView.style.display = 'none';
     resourceView.style.display = 'block';
+});
+const saveButton = document.getElementById('save-game');
+saveButton.addEventListener('click', function () {
+    saveGame();
 });
 
 setInterval(function () {
