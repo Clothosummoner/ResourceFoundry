@@ -4,12 +4,19 @@ const resources = {
     sand: 0
 };
 let money = 0;
+let lumberjackCount = 0;
+let lumberjack = 0;
+
+
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
 const shopView = document.getElementById('shop-view');
 const resourceView = document.getElementById('resource-view');
+const lumberjackCost = 10; // Cost of a lumberjack in money
+const lumberjackProductionRate = 1; // Amount of wood produced per second by a lumberjack
+const lumberjackCountElement = document.getElementById('lumberjack-amount');
 
 
 function updateResources() {
@@ -17,6 +24,7 @@ function updateResources() {
     stoneAmount.textContent = resources.stone;
     sandAmount.textContent = resources.sand;
     moneyAmount.textContent = money;
+    lumberjackCountElement.textContent = lumberjackCount;
 
 }
 function collectResource(resource) {
@@ -31,6 +39,13 @@ function sellResource(resource) {
     }
 }
 
+function buyLumberjack() {
+    if (money >= lumberjackCost) {
+        money -= lumberjackCost;
+        lumberjackCount++;
+        updateResources();
+    }
+}
 
 const woodCollectButton = document.getElementById('collect-wood');
 woodCollectButton.addEventListener('click', function () {
@@ -58,6 +73,10 @@ const sandSellButton = document.getElementById('sell-sand');
 sandSellButton.addEventListener('click', function () {
     sellResource('sand');
 });
+const buyLumberjackButton = document.getElementById('buy-lumberjack');
+buyLumberjackButton.addEventListener('click', function () {
+    buyLumberjack();
+});
 
 const shopButton = document.getElementById('nav-shop');
 shopButton.addEventListener('click', function () {
@@ -69,3 +88,10 @@ resourceButton.addEventListener('click', function () {
     shopView.style.display = 'none';
     resourceView.style.display = 'block';
 });
+
+setInterval(function () {
+    if (lumberjackCount > 0) {
+        resources.wood += lumberjackCount * lumberjackProductionRate;
+        updateResources();
+    }
+}, 1000);
