@@ -26,6 +26,14 @@ const quarryWorkerCost = 15;
 const quarryWorkerCountElement = document.getElementById('quarry-worker-amount');
 const sandWorkerCost = 20; 
 const sandWorkerCountElement = document.getElementById('sand-worker-amount');
+const axeCost = 50; // Cost of the axe
+const axeStatusElement = document.getElementById('axe-amount');
+const pickaxeCost = 75; // Cost of the pickaxe
+const pickaxeStatusElement = document.getElementById('pickaxe-amount');
+const shovelCost = 100; // Cost of the shovel
+const shovelStatusElement = document.getElementById('shovel-amount');
+
+
 
 
 function updateResources() {
@@ -36,6 +44,12 @@ function updateResources() {
     lumberjackCountElement.textContent = lumberjackCount;
     quarryWorkerCountElement.textContent = quarryWorkerCount;
     sandWorkerCountElement.textContent = sandWorkerCount;
+    if (hasAxe) {
+        axeStatusElement.textContent = 'Gekauft';
+    } else {
+        axeStatusElement.textContent = 'Nicht gekauft';
+    }
+
 
 }
 function collectResource(resource) {
@@ -71,6 +85,15 @@ function buySandWorker() {
         updateResources();
     }
 }
+function buyAxe() {
+
+    if (money >= axeCost && !hasAxe) {
+        money -= axeCost;
+        hasAxe = true;
+        toolCheck(); // Update production rate after buying the axe
+        updateResources();
+    }
+}
 function saveGame() {
     const gameState = {
         resources: resources,
@@ -102,6 +125,7 @@ function toolCheck() {
     }
 }
 toolCheck();
+
 
 const woodCollectButton = document.getElementById('collect-wood');
 woodCollectButton.addEventListener('click', function () {
@@ -141,6 +165,10 @@ const buySandWorkerButton = document.getElementById('buy-sand-worker');
 buySandWorkerButton.addEventListener('click', function () {
     buySandWorker();
 });
+const buyAxeButton = document.getElementById('buy-axe');
+buyAxeButton.addEventListener('click', function () {
+    buyAxe();
+});
 
 const shopButton = document.getElementById('nav-shop');
 shopButton.addEventListener('click', function () {
@@ -156,6 +184,7 @@ const saveButton = document.getElementById('save-game');
 saveButton.addEventListener('click', function () {
     saveGame();
 });
+
 
 setInterval(function () {
     if (lumberjackCount > 0) {
