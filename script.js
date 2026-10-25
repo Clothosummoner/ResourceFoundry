@@ -150,6 +150,15 @@ function loadGame() {
     } 
 }
 loadGame();
+function resetGame() {
+    const confirmation = confirm("Möchten Sie das Spiel wirklich zurücksetzen? Alle Fortschritte gehen verloren.");
+    if (!confirmation) {
+        return;
+    }
+    localStorage.removeItem('gameState');
+    location.reload();
+
+}
 function toolCheck() {
     if (hasAxe) {
         lumberjackProductionRate = 2; // Double production rate if the player has an axe
@@ -228,6 +237,10 @@ resourceButton.addEventListener('click', function () {
 const saveButton = document.getElementById('save-game');
 saveButton.addEventListener('click', function () {
     saveGame();
+});
+const resetButton = document.getElementById('reset-game');
+resetButton.addEventListener('click', function() {
+    resetGame();
 });
 
 
