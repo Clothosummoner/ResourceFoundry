@@ -49,7 +49,16 @@ function updateResources() {
     } else {
         axeStatusElement.textContent = 'Nicht gekauft';
     }
-
+    if (hasPickaxe) {
+        pickaxeStatusElement.textContent = 'Gekauft';
+    } else {
+        pickaxeStatusElement.textContent = 'Nicht gekauft';
+    }
+    if (hasShovel) {
+        shovelStatusElement.textContent = 'Gekauft';
+    } else {
+        shovelStatusElement.textContent = 'Nicht gekauft';
+    }
 
 }
 function collectResource(resource) {
@@ -94,13 +103,32 @@ function buyAxe() {
         updateResources();
     }
 }
+function buyPickaxe() {
+    if (money >= pickaxeCost && !hasPickaxe) {
+        money -= pickaxeCost;
+        hasPickaxe = true;
+        toolCheck(); // Update production rate after buying the pickaxe
+        updateResources();
+    }
+}
+function buyShovel() {
+    if (money >= shovelCost && !hasShovel) {
+        money -= shovelCost;
+        hasShovel = true;
+        toolCheck(); // Update production rate after buying the shovel
+        updateResources();
+    }
+}
 function saveGame() {
     const gameState = {
         resources: resources,
         money: money,
         lumberjackCount: lumberjackCount,
         quarryWorkerCount: quarryWorkerCount,
-        sandWorkerCount: sandWorkerCount
+        sandWorkerCount: sandWorkerCount,
+        hasAxe: hasAxe,
+        hasPickaxe: hasPickaxe,
+        hasShovel: hasShovel
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
 }
@@ -115,6 +143,9 @@ function loadGame() {
         lumberjackCount = gameState.lumberjackCount ?? 0;
         quarryWorkerCount = gameState.quarryWorkerCount ?? 0;
         sandWorkerCount = gameState.sandWorkerCount ?? 0;
+        hasAxe = gameState.hasAxe ?? false;
+        hasPickaxe = gameState.hasPickaxe ?? false;
+        hasShovel = gameState.hasShovel ?? false;
         updateResources();
     } 
 }
@@ -122,6 +153,12 @@ loadGame();
 function toolCheck() {
     if (hasAxe) {
         lumberjackProductionRate = 2; // Double production rate if the player has an axe
+    }
+    if (hasPickaxe) {
+        quarryProductionRate = 2; // Double production rate if the player has a pickaxe
+    }
+    if (hasShovel) {
+        sandProductionRate = 2; // Double production rate if the player has a shovel
     }
 }
 toolCheck();
@@ -168,6 +205,14 @@ buySandWorkerButton.addEventListener('click', function () {
 const buyAxeButton = document.getElementById('buy-axe');
 buyAxeButton.addEventListener('click', function () {
     buyAxe();
+});
+const buyPickaxeButton = document.getElementById('buy-pickaxe');
+buyPickaxeButton.addEventListener('click', function() {
+    buyPickaxe();
+});
+const buyShovelButton = document.getElementById('buy-shovel');
+buyShovelButton.addEventListener('click', function() {
+    buyShovel();
 });
 
 const shopButton = document.getElementById('nav-shop');
