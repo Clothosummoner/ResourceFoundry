@@ -3,29 +3,44 @@ const resources = {
     stone: 0,
     sand: 0
 };
+const sellPrices = {
+    wood: 1,
+    stone: 2,
+    sand: 3
+};
+const worker = {
+    lumberjack: {
+        count: 0,
+        baseCost: 10,
+        productionRate: 1
+    },
+    quarryWorker: {
+        count: 0,
+        baseCost: 20,
+        productionRate: 1
+    },
+    sandWorker: {
+        count: 0,
+        baseCost: 30,
+        productionRate: 1
+    }
+};
 let money = 0;
-let lumberjackCount = 0;
 let hasAxe = false;
 let hasPickaxe = false;
 let hasShovel = false;
-let lumberjackProductionRate = 1; 
-let quarryWorkerCount = 0; 
-let quarryProductionRate = 1; 
-let sandWorkerCount = 0; 
-let sandProductionRate = 1; 
-
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
 const shopView = document.getElementById('shop-view');
 const resourceView = document.getElementById('resource-view');
-const lumberjackCost = 10; 
 const lumberjackCountElement = document.getElementById('lumberjack-amount');
-const quarryWorkerCost = 15; 
-const quarryWorkerCountElement = document.getElementById('quarry-worker-amount');
-const sandWorkerCost = 20; 
+const quarryWorkerCountElement = document.getElementById('quarry-worker-amount'); 
 const sandWorkerCountElement = document.getElementById('sand-worker-amount');
+const lumberjackCostElement = document.getElementById('lumberjack-cost');
+const quarryWorkerCostElement = document.getElementById('quarry-worker-cost');
+const sandWorkerCostElement = document.getElementById('sand-worker-cost');
 const axeCost = 50; // Cost of the axe
 const axeStatusElement = document.getElementById('axe-amount');
 const pickaxeCost = 75; // Cost of the pickaxe
@@ -41,9 +56,12 @@ function updateResources() {
     stoneAmount.textContent = resources.stone;
     sandAmount.textContent = resources.sand;
     moneyAmount.textContent = money;
-    lumberjackCountElement.textContent = lumberjackCount;
-    quarryWorkerCountElement.textContent = quarryWorkerCount;
-    sandWorkerCountElement.textContent = sandWorkerCount;
+    lumberjackCountElement.textContent = worker.lumberjack.count;
+    quarryWorkerCountElement.textContent = worker.quarryWorker.count;
+    sandWorkerCountElement.textContent = worker.sandWorker.count;
+    lumberjackCostElement.textContent = getCost(worker.lumberjack.baseCost, worker.lumberjack.count);
+    quarryWorkerCostElement.textContent = getCost(worker.quarryWorker.baseCost, worker.quarryWorker.count);
+    sandWorkerCostElement.textContent = getCost(worker.sandWorker.baseCost, worker.sandWorker.count);
     if (hasAxe) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
@@ -68,29 +86,18 @@ function collectResource(resource) {
 function sellResource(resource) {
     if (resources[resource] > 0) {
         resources[resource]--;
-        money++;
+        money += sellPrices[resource];
         updateResources();
     }
 }
-
-function buyLumberjack() {
-    if (money >= lumberjackCost) {
-        money -= lumberjackCost;
-        lumberjackCount++;
-        updateResources();
-    }
+function getCost(baseCost, count) {
+    return Math.floor(baseCost * Math.pow(1.15, count));
 }
-function buyQuarryWorker() {
-    if (money >= quarryWorkerCost) {
-        money -= quarryWorkerCost;
-        quarryWorkerCount++;
-        updateResources();
-    }
-}
-function buySandWorker() {
-    if (money >= sandWorkerCost) {
-        money -= sandWorkerCost;
-        sandWorkerCount++;
+function buyWorker(workerType) {
+    const cost = getCost(worker[workerType].baseCost, worker[workerType].count);
+    if (money >= cost) {
+        money -= cost;
+        worker[workerType].count++;
         updateResources();
     }
 }
@@ -123,9 +130,7 @@ function saveGame() {
     const gameState = {
         resources: resources,
         money: money,
-        lumberjackCount: lumberjackCount,
-        quarryWorkerCount: quarryWorkerCount,
-        sandWorkerCount: sandWorkerCount,
+        worker: worker,
         hasAxe: hasAxe,
         hasPickaxe: hasPickaxe,
         hasShovel: hasShovel
@@ -140,9 +145,11 @@ function loadGame() {
         resources.stone = gameState.resources.stone ?? 0;
         resources.sand = gameState.resources.sand ?? 0;
         money = gameState.money ?? 0;
-        lumberjackCount = gameState.lumberjackCount ?? 0;
-        quarryWorkerCount = gameState.quarryWorkerCount ?? 0;
-        sandWorkerCount = gameState.sandWorkerCount ?? 0;
+       if (gameState.worker) {
+            worker.lumberjack.count = gameState.worker.lumberjack.count ?? 0;
+            worker.quarryWorker.count = gameState.worker.quarryWorker.count ?? 0;
+            worker.sandWorker.count = gameState.worker.sandWorker.count ?? 0;
+        }
         hasAxe = gameState.hasAxe ?? false;
         hasPickaxe = gameState.hasPickaxe ?? false;
         hasShovel = gameState.hasShovel ?? false;
@@ -161,13 +168,13 @@ function resetGame() {
 }
 function toolCheck() {
     if (hasAxe) {
-        lumberjackProductionRate = 2; // Double production rate if the player has an axe
+        worker.lumberjack.productionRate = 2; // Double production rate if the player has an axe
     }
     if (hasPickaxe) {
-        quarryProductionRate = 2; // Double production rate if the player has a pickaxe
+        worker.quarryWorker.productionRate = 2; // Double production rate if the player has a pickaxe
     }
     if (hasShovel) {
-        sandProductionRate = 2; // Double production rate if the player has a shovel
+        worker.sandWorker.productionRate = 2; // Double production rate if the player has a shovel
     }
 }
 toolCheck();
@@ -201,15 +208,15 @@ sandSellButton.addEventListener('click', function () {
 });
 const buyLumberjackButton = document.getElementById('buy-lumberjack');
 buyLumberjackButton.addEventListener('click', function () {
-    buyLumberjack();
+    buyWorker('lumberjack');
 });
 const buyQuarryWorkerButton = document.getElementById('buy-quarry-worker');
 buyQuarryWorkerButton.addEventListener('click', function () {
-    buyQuarryWorker();
+    buyWorker('quarryWorker');
 });
 const buySandWorkerButton = document.getElementById('buy-sand-worker');
 buySandWorkerButton.addEventListener('click', function () {
-    buySandWorker();
+    buyWorker('sandWorker');
 });
 const buyAxeButton = document.getElementById('buy-axe');
 buyAxeButton.addEventListener('click', function () {
@@ -245,16 +252,16 @@ resetButton.addEventListener('click', function() {
 
 
 setInterval(function () {
-    if (lumberjackCount > 0) {
-        resources.wood += lumberjackCount * lumberjackProductionRate;
+    if (worker.lumberjack.count > 0) {
+        resources.wood += worker.lumberjack.count * worker.lumberjack.productionRate;
         updateResources();
     }
-    if (quarryWorkerCount > 0) {
-        resources.stone += quarryWorkerCount * quarryProductionRate;
+    if (worker.quarryWorker.count > 0) {
+        resources.stone += worker.quarryWorker.count * worker.quarryWorker.productionRate;
         updateResources();
     }
-    if (sandWorkerCount > 0) {
-        resources.sand += sandWorkerCount * sandProductionRate;
+    if (worker.sandWorker.count > 0) {
+        resources.sand += worker.sandWorker.count * worker.sandWorker.productionRate;
         updateResources();
     }
 }, 1000);
