@@ -9,12 +9,11 @@
 <body>
     <h1>Resource Foundry</h1>
     <p>Dein eigenes Ressourcen-Imperium beginnt hier.</p>
-    <button id="nav-resources">Ressourcen</button>
-    <button id="nav-shop">Shop</button>
-    <button id="save-game">Spiel speichern</button>
-    <button id="reset-game">Spiel zurücksetzen</button>
-    <div class="resource-view" id="resource-view">
-        <p>Ressourcen</p>
+    <div class="top-bar">
+        <button id="nav-resources">Ressourcen</button>
+        <button id="nav-shop">Shop</button>
+        <button id="save-game">Spiel speichern</button>
+        <button id="reset-game">Spiel zurücksetzen</button>
         <div class="sellamountbuttons">
             <div class="slider" id="amount-slider"></div>
             <button id="amount-1">1</button>
@@ -22,6 +21,11 @@
             <button id="amount-100">100</button>
             <button id="amount-max">Max</button>
         </div>
+    </div>
+   
+    <div class="resource-view" id="resource-view">
+        <p>Ressourcen</p>
+
         <div class="resource-grid">
 
             <div class="resource-card">
@@ -83,7 +87,7 @@
             <button id="buy-shovel">Schaufel kaufen (100 Geld)</button>
         </div>
     </div>
- 
+
     <script src="script.js"></script>
 </body>
 </html>
