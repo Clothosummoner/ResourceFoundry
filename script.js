@@ -26,6 +26,7 @@ const worker = {
     }
 };
 let money = 0;
+let sellAmount = 1;
 let hasAxe = false;
 let hasPickaxe = false;
 let hasShovel = false;
@@ -84,9 +85,10 @@ function collectResource(resource) {
     updateResources();
 }
 function sellResource(resource) {
-    if (resources[resource] > 0) {
-        resources[resource]--;
-        money += sellPrices[resource];
+    const amount = Math.min(sellAmount, resources[resource]);
+    if (amount > 0) {
+        resources[resource] -= amount;
+        money += amount * sellPrices[resource];
         updateResources();
     }
 }
@@ -145,7 +147,7 @@ function loadGame() {
         resources.stone = gameState.resources.stone ?? 0;
         resources.sand = gameState.resources.sand ?? 0;
         money = gameState.money ?? 0;
-       if (gameState.worker) {
+        if (gameState.worker) {
             worker.lumberjack.count = gameState.worker.lumberjack.count ?? 0;
             worker.quarryWorker.count = gameState.worker.quarryWorker.count ?? 0;
             worker.sandWorker.count = gameState.worker.sandWorker.count ?? 0;
@@ -154,7 +156,7 @@ function loadGame() {
         hasPickaxe = gameState.hasPickaxe ?? false;
         hasShovel = gameState.hasShovel ?? false;
         updateResources();
-    } 
+    }
 }
 loadGame();
 function resetGame() {
@@ -223,11 +225,11 @@ buyAxeButton.addEventListener('click', function () {
     buyAxe();
 });
 const buyPickaxeButton = document.getElementById('buy-pickaxe');
-buyPickaxeButton.addEventListener('click', function() {
+buyPickaxeButton.addEventListener('click', function () {
     buyPickaxe();
 });
 const buyShovelButton = document.getElementById('buy-shovel');
-buyShovelButton.addEventListener('click', function() {
+buyShovelButton.addEventListener('click', function () {
     buyShovel();
 });
 
@@ -246,10 +248,25 @@ saveButton.addEventListener('click', function () {
     saveGame();
 });
 const resetButton = document.getElementById('reset-game');
-resetButton.addEventListener('click', function() {
+resetButton.addEventListener('click', function () {
     resetGame();
 });
-
+const amount1Button = document.getElementById('amount-1');
+amount1Button.addEventListener('click', function () {
+    sellAmount = 1;
+});
+const amount10Button = document.getElementById('amount-10');
+amount10Button.addEventListener('click', function () {
+    sellAmount = 10;
+});
+const amount100Button = document.getElementById('amount-100');
+amount100Button.addEventListener('click', function () {
+    sellAmount = 100;
+});
+const amountMaxButton = document.getElementById('amount-max');
+amountMaxButton.addEventListener('click', function () {
+    sellAmount = Infinity;
+});
 
 setInterval(function () {
     if (worker.lumberjack.count > 0) {
@@ -268,3 +285,5 @@ setInterval(function () {
 setInterval(function () {
     saveGame();
 }, 10000);
+
+
