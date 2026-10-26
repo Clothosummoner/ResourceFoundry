@@ -62,15 +62,9 @@ function updateResources() {
     lumberjackCountElement.textContent = worker.lumberjack.count;
     quarryWorkerCountElement.textContent = worker.quarryWorker.count;
     sandWorkerCountElement.textContent = worker.sandWorker.count;
-    if (selectedAmount === Infinity) {
-        lumberjackCostElement.textContent = 'Max';
-        quarryWorkerCostElement.textContent = 'Max';
-        sandWorkerCostElement.textContent = 'Max';
-    } else {
-        lumberjackCostElement.textContent = getTotalCost('lumberjack', selectedAmount);
-        quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', selectedAmount);
-        sandWorkerCostElement.textContent = getTotalCost('sandWorker', selectedAmount);
-    }
+    lumberjackCostElement.textContent = getTotalCost('lumberjack', getBuyAmount('lumberjack'));
+    quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', getBuyAmount('quarryWorker'));
+    sandWorkerCostElement.textContent = getTotalCost('sandWorker', getBuyAmount('sandWorker'));
     if (hasAxe) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
@@ -111,23 +105,34 @@ function getTotalCost(workerType, amount) {
     return total;
 }
 function setSelectedAmount(amount, button) {
-    selectedAmount = amount
+    selectedAmount = amount;
     amountSlider.style.left = button.offsetLeft + 'px';
     amountSlider.style.width = button.offsetWidth + 'px';
-updateResources(); // Update the costs displayed for workers based on the selected amount
+    updateResources(); // Update the costs displayed for workers based on the selected amount
+}
+function getBuyAmount(workerType) {
+    if (selectedAmount === Infinity) {
+        return getMaxAffordableAmount(workerType);
+    }
+    return selectedAmount;
 }
 function buyWorker(workerType) {
-    if (selectedAmount === Infinity) {
-        return; // Do nothing if the selected amount is "Max"
-    } else {
-        const cost = getTotalCost(workerType, selectedAmount);
-        if (money >= cost) {
-            money -= cost;
-            worker[workerType].count += selectedAmount;
-            updateResources();
-        }
+    const amount = getBuyAmount(workerType);
+    const cost = getTotalCost(workerType, amount);
+    if (amount > 0 && money >= cost) {
+        money -= cost;
+        worker[workerType].count += amount;
+        updateResources();
     }
-   
+}
+function getMaxAffordableAmount(workerType) {
+    let amount = 0;
+    let total = 0;
+    while (total + getCost(worker[workerType].baseCost, worker[workerType].count + amount) <= money) {
+       total += getCost(worker[workerType].baseCost, worker[workerType].count + amount);
+       amount++;
+    }
+    return amount;
 }
 function buyAxe() {
 
