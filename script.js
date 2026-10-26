@@ -48,6 +48,8 @@ const pickaxeCost = 75; // Cost of the pickaxe
 const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelCost = 100; // Cost of the shovel
 const shovelStatusElement = document.getElementById('shovel-amount');
+const amountSlider = document.getElementById('amount-slider');
+
 
 
 
@@ -97,11 +99,8 @@ function getCost(baseCost, count) {
 }
 function setSellAmount(amount, button) {
     sellAmount = amount
-    amount1Button.classList.remove('active');
-    amount10Button.classList.remove('active');
-    amount100Button.classList.remove('active');
-    amountMaxButton.classList.remove('active');
-    button.classList.add('active');
+    amountSlider.style.left = button.offsetLeft + 'px';
+    amountSlider.style.width = button.offsetWidth + 'px';
 }
 function buyWorker(workerType) {
     const cost = getCost(worker[workerType].baseCost, worker[workerType].count);
@@ -275,6 +274,7 @@ const amountMaxButton = document.getElementById('amount-max');
 amountMaxButton.addEventListener('click', function () {
     setSellAmount(Infinity, amountMaxButton);
 });
+setSellAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
 setInterval(function () {
     if (worker.lumberjack.count > 0) {
         resources.wood += worker.lumberjack.count * worker.lumberjack.productionRate;
