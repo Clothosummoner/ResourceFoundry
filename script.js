@@ -62,9 +62,15 @@ function updateResources() {
     lumberjackCountElement.textContent = worker.lumberjack.count;
     quarryWorkerCountElement.textContent = worker.quarryWorker.count;
     sandWorkerCountElement.textContent = worker.sandWorker.count;
-    lumberjackCostElement.textContent = getCost(worker.lumberjack.baseCost, worker.lumberjack.count);
-    quarryWorkerCostElement.textContent = getCost(worker.quarryWorker.baseCost, worker.quarryWorker.count);
-    sandWorkerCostElement.textContent = getCost(worker.sandWorker.baseCost, worker.sandWorker.count);
+    if (selectedAmount === Infinity) {
+        lumberjackCostElement.textContent = 'Max';
+        quarryWorkerCostElement.textContent = 'Max';
+        sandWorkerCostElement.textContent = 'Max';
+    } else {
+        lumberjackCostElement.textContent = getTotalCost('lumberjack', selectedAmount);
+        quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', selectedAmount);
+        sandWorkerCostElement.textContent = getTotalCost('sandWorker', selectedAmount);
+    }
     if (hasAxe) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
@@ -108,6 +114,7 @@ function setSelectedAmount(amount, button) {
     selectedAmount = amount
     amountSlider.style.left = button.offsetLeft + 'px';
     amountSlider.style.width = button.offsetWidth + 'px';
+updateResources(); // Update the costs displayed for workers based on the selected amount
 }
 function buyWorker(workerType) {
     if (selectedAmount === Infinity) {
