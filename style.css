@@ -35,4 +35,12 @@ html {
 }
 .shop-view {
     display: none;
+
+ 
+}
+.sellamountbuttons {
+    .active {
+        background-color: #ffd800;
+        color: #000;
+    }
 }
