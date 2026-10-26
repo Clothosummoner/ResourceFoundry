@@ -95,11 +95,13 @@ function sellResource(resource) {
 function getCost(baseCost, count) {
     return Math.floor(baseCost * Math.pow(1.15, count));
 }
-function clearActiveButtons() {
+function setSellAmount(amount, button) {
+    sellAmount = amount
     amount1Button.classList.remove('active');
     amount10Button.classList.remove('active');
     amount100Button.classList.remove('active');
     amountMaxButton.classList.remove('active');
+    button.classList.add('active');
 }
 function buyWorker(workerType) {
     const cost = getCost(worker[workerType].baseCost, worker[workerType].count);
@@ -259,33 +261,20 @@ resetButton.addEventListener('click', function () {
 });
 const amount1Button = document.getElementById('amount-1');
 amount1Button.addEventListener('click', function () {
-    sellAmount = 1;
-    clearActiveButtons();
-    amount1Button.classList.add('active');
-
+    setSellAmount(1, amount1Button);
 });
 const amount10Button = document.getElementById('amount-10');
 amount10Button.addEventListener('click', function () {
-    sellAmount = 10;
-    clearActiveButtons();
-    amount10Button.classList.add('active');
-   
+    setSellAmount(10, amount10Button);
 });
 const amount100Button = document.getElementById('amount-100');
 amount100Button.addEventListener('click', function () {
-    sellAmount = 100;
-    clearActiveButtons();
-    amount100Button.classList.add('active');
-  
+    setSellAmount(100, amount100Button);
 });
 const amountMaxButton = document.getElementById('amount-max');
 amountMaxButton.addEventListener('click', function () {
-    clearActiveButtons();
-    amountMaxButton.classList.add('active');
-   
-    sellAmount = Infinity;
+    setSellAmount(Infinity, amountMaxButton);
 });
-
 setInterval(function () {
     if (worker.lumberjack.count > 0) {
         resources.wood += worker.lumberjack.count * worker.lumberjack.productionRate;
