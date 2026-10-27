@@ -208,7 +208,8 @@ function saveGame() {
         worker: worker,
         hasAxe: hasAxe,
         hasPickaxe: hasPickaxe,
-        hasShovel: hasShovel
+        hasShovel: hasShovel,
+        unlocks: unlocks
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
 }
@@ -228,6 +229,10 @@ function loadGame() {
         hasAxe = gameState.hasAxe ?? false;
         hasPickaxe = gameState.hasPickaxe ?? false;
         hasShovel = gameState.hasShovel ?? false;
+        if (gameState.unlocks) {
+            unlocks.stone.unlocked = gameState.unlocks.stone.unlocked ?? false;
+            unlocks.sand.unlocked = gameState.unlocks.sand.unlocked ?? false;
+        }
         updateResources();
     }
 }
