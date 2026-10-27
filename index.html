@@ -39,16 +39,29 @@
                 <button id="sell-wood">Holz verkaufen (1 Geld)</button>
             </div>
             <div class="resource-card">
-                <p class="resource-name">Stein</p>
-                <p class="resource-amount" id="stone-amount">0</p>
-                <button id="collect-stone">Stein sammeln</button>
-                <button id="sell-stone">Stein verkaufen (2 Geld)</button>
+                <div class="stoneLocked" id="stoneLocked">
+                    <p class="resource-name">Stein</p>
+                    <button id="unlock-stone">Stein freischalten (500 Holz)</button>
+                </div>
+                <div class="stoneUnlocked" id="stoneUnlocked">
+                    <p class="resource-name">Stein</p>
+                    <p class="resource-amount" id="stone-amount">0</p>
+                    <button id="collect-stone">Stein sammeln</button>
+                    <button id="sell-stone">Stein verkaufen (2 Geld)</button>
+                </div>
+            
             </div>
             <div class="resource-card">
-                <p class="resource-name">Sand</p>
-                <p class="resource-amount" id="sand-amount">0</p>
-                <button id="collect-sand">Sand sammeln</button>
-                <button id="sell-sand">Sand verkaufen (3 Geld)</button>
+                <div class="sandLocked" id="sandLocked">
+                    <p class="resource-name">Sand</p>
+                    <button id="unlock-sand">Sand freischalten (1000 Stein)</button>
+                </div>
+                <div class="sandUnlocked" id="sandUnlocked">
+                    <p class="resource-name">Sand</p>
+                    <p class="resource-amount" id="sand-amount">0</p>
+                    <button id="collect-sand">Sand sammeln</button>
+                    <button id="sell-sand">Sand verkaufen (3 Geld)</button>
+                </div>
             </div>
         </div>
     </div>

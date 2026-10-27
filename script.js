@@ -25,6 +25,18 @@ const worker = {
         productionRate: 1
     }
 };
+const unlocks = {
+    stone: {
+        unlocked: false, 
+        costResource: 'wood',
+        cost: 500
+    },
+    sand: {
+        unlocked: false,
+        costResource: 'stone',
+        cost: 1000
+    }
+};
 let money = 0;
 let selectedAmount = 1;
 let hasAxe = false;
@@ -42,6 +54,10 @@ const sandWorkerCountElement = document.getElementById('sand-worker-amount');
 const lumberjackCostElement = document.getElementById('lumberjack-cost');
 const quarryWorkerCostElement = document.getElementById('quarry-worker-cost');
 const sandWorkerCostElement = document.getElementById('sand-worker-cost');
+const stoneLockedElement = document.getElementById('stoneLocked');
+const sandLockedElement = document.getElementById('sandLocked');
+const stoneUnlockedElement = document.getElementById('stoneUnlocked');
+const sandUnlockedElement = document.getElementById('sandUnlocked');
 const axeCost = 50; // Cost of the axe
 const axeStatusElement = document.getElementById('axe-amount');
 const pickaxeCost = 75; // Cost of the pickaxe
@@ -79,6 +95,21 @@ function updateResources() {
         shovelStatusElement.textContent = 'Gekauft';
     } else {
         shovelStatusElement.textContent = 'Nicht gekauft';
+    }
+    if (unlocks.stone.unlocked) {
+        stoneLockedElement.style.display = 'none';
+        stoneUnlockedElement.style.display = 'block';
+
+    } else {
+        stoneUnlockedElement.style.display = 'none';
+        stoneLockedElement.style.display = 'block';
+    }
+    if (unlocks.sand.unlocked) {
+        sandLockedElement.style.display = 'none';
+        sandUnlockedElement.style.display = 'block';
+    } else {
+        sandUnlockedElement.style.display = 'none';
+        sandLockedElement.style.display = 'block';
     }
 
 }
@@ -134,6 +165,17 @@ function getMaxAffordableAmount(workerType) {
     }
     return amount;
 }
+function unlockResource(resource) {
+       const payWith = unlocks[resource].costResource;   // z. B. 'wood'
+        const cost = unlocks[resource].cost;              // z. B. 500
+        if (resources[payWith] >= cost && !unlocks[resource].unlocked ) {
+            resources[payWith] -= cost;
+        unlocks[resource].unlocked = true;
+            updateResources();
+        }
+    }
+
+
 function buyAxe() {
 
     if (money >= axeCost && !hasAxe) {
@@ -299,6 +341,15 @@ const amountMaxButton = document.getElementById('amount-max');
 amountMaxButton.addEventListener('click', function () {
     setSelectedAmount(Infinity, amountMaxButton);
 });
+const stoneUnlockButton = document.getElementById('unlock-stone');
+stoneUnlockButton.addEventListener('click', function () {
+    unlockResource('stone');
+});
+const sandUnlockButton = document.getElementById('unlock-sand');
+sandUnlockButton.addEventListener('click', function () {
+    unlockResource('sand'); 
+});
+
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
 setInterval(function () {
     if (worker.lumberjack.count > 0) {
