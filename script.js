@@ -26,6 +26,9 @@ const worker = {
     }
 };
 const unlocks = {
+    wood: {
+        unlocked: true,
+    },
     stone: {
         unlocked: false, 
         costResource: 'wood',
@@ -65,6 +68,7 @@ const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelCost = 100; // Cost of the shovel
 const shovelStatusElement = document.getElementById('shovel-amount');
 const amountSlider = document.getElementById('amount-slider');
+const lockedItems = document.querySelectorAll('[data-requires]');
 
 
 
@@ -111,6 +115,7 @@ function updateResources() {
         sandUnlockedElement.style.display = 'none';
         sandLockedElement.style.display = 'block';
     }
+    updateLockedItems();
 
 }
 function collectResource(resource) {
@@ -166,14 +171,30 @@ function getMaxAffordableAmount(workerType) {
     return amount;
 }
 function unlockResource(resource) {
-       const payWith = unlocks[resource].costResource;   // z. B. 'wood'
-        const cost = unlocks[resource].cost;              // z. B. 500
-        if (resources[payWith] >= cost && !unlocks[resource].unlocked ) {
-            resources[payWith] -= cost;
+    const payWith = unlocks[resource].costResource;   // z. B. 'wood'
+    const cost = unlocks[resource].cost;              // z. B. 500
+    if (resources[payWith] >= cost && !unlocks[resource].unlocked ) {
+        resources[payWith] -= cost;
         unlocks[resource].unlocked = true;
-            updateResources();
+        updateResources();
+    }
+}
+function updateLockedItems() {
+    for (const item of lockedItems) {
+        const required = item.dataset.requires.split(' ');
+        let allUnlocked = true;
+        for (const resource of required) {
+            if (!unlocks[resource].unlocked) {
+                allUnlocked = false;
+            }
+        }
+        if (allUnlocked) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
         }
     }
+}
 
 
 function buyAxe() {
