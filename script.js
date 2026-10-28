@@ -40,11 +40,25 @@ const unlocks = {
         cost: 1000
     }
 };
+const tools = {
+    axe: {
+        owned: false,
+        cost: 500,
+        workerType: 'lumberjack'
+    },
+    pickaxe: {
+        owned: false,
+        cost: 1000,
+        workerType: 'quarryWorker'
+    },
+    shovel: {
+        owned: false,
+        cost: 2000,
+        workerType: 'sandWorker'
+    },
+};
 let money = 0;
 let selectedAmount = 1;
-let hasAxe = false;
-let hasPickaxe = false;
-let hasShovel = false;
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
@@ -61,11 +75,8 @@ const stoneLockedElement = document.getElementById('stoneLocked');
 const sandLockedElement = document.getElementById('sandLocked');
 const stoneUnlockedElement = document.getElementById('stoneUnlocked');
 const sandUnlockedElement = document.getElementById('sandUnlocked');
-const axeCost = 50; // Cost of the axe
 const axeStatusElement = document.getElementById('axe-amount');
-const pickaxeCost = 75; // Cost of the pickaxe
 const pickaxeStatusElement = document.getElementById('pickaxe-amount');
-const shovelCost = 100; // Cost of the shovel
 const shovelStatusElement = document.getElementById('shovel-amount');
 const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
@@ -85,17 +96,17 @@ function updateResources() {
     lumberjackCostElement.textContent = getTotalCost('lumberjack', getBuyAmount('lumberjack'));
     quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', getBuyAmount('quarryWorker'));
     sandWorkerCostElement.textContent = getTotalCost('sandWorker', getBuyAmount('sandWorker'));
-    if (hasAxe) {
+    if (tools.axe.owned) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
         axeStatusElement.textContent = 'Nicht gekauft';
     }
-    if (hasPickaxe) {
+    if (tools.pickaxe.owned) {
         pickaxeStatusElement.textContent = 'Gekauft';
     } else {
         pickaxeStatusElement.textContent = 'Nicht gekauft';
     }
-    if (hasShovel) {
+    if (tools.shovel.owned) {
         shovelStatusElement.textContent = 'Gekauft';
     } else {
         shovelStatusElement.textContent = 'Nicht gekauft';
@@ -195,30 +206,14 @@ function updateLockedItems() {
         }
     }
 }
-
-
-function buyAxe() {
-
-    if (money >= axeCost && !hasAxe) {
-        money -= axeCost;
-        hasAxe = true;
-        toolCheck(); // Update production rate after buying the axe
-        updateResources();
-    }
-}
-function buyPickaxe() {
-    if (money >= pickaxeCost && !hasPickaxe) {
-        money -= pickaxeCost;
-        hasPickaxe = true;
-        toolCheck(); // Update production rate after buying the pickaxe
-        updateResources();
-    }
-}
-function buyShovel() {
-    if (money >= shovelCost && !hasShovel) {
-        money -= shovelCost;
-        hasShovel = true;
-        toolCheck(); // Update production rate after buying the shovel
+function buyTool(toolType) {
+    const cost = tools[toolType].cost
+    const owned = tools[toolType].owned
+    const workerType = tools[toolType].workerType
+    if (money >= cost && !owned) {
+        money -= cost;
+        tools[toolType].owned = true;
+        worker[workerType].productionRate = 2;
         updateResources();
     }
 }
@@ -227,9 +222,7 @@ function saveGame() {
         resources: resources,
         money: money,
         worker: worker,
-        hasAxe: hasAxe,
-        hasPickaxe: hasPickaxe,
-        hasShovel: hasShovel,
+        tools : tools,
         unlocks: unlocks
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
@@ -247,16 +240,32 @@ function loadGame() {
             worker.quarryWorker.count = gameState.worker.quarryWorker.count ?? 0;
             worker.sandWorker.count = gameState.worker.sandWorker.count ?? 0;
         }
-        hasAxe = gameState.hasAxe ?? false;
-        hasPickaxe = gameState.hasPickaxe ?? false;
-        hasShovel = gameState.hasShovel ?? false;
         if (gameState.unlocks) {
             unlocks.stone.unlocked = gameState.unlocks.stone.unlocked ?? false;
             unlocks.sand.unlocked = gameState.unlocks.sand.unlocked ?? false;
         }
+        if (gameState.tools) {
+            tools.axe.owned = gameState.tools.axe.owned ?? false;
+            tools.pickaxe.owned = gameState.tools.pickaxe.owned ?? false;
+            tools.shovel.owned = gameState.tools.shovel.owned ?? false;
+        }
+        toolCheck();
         updateResources();
     }
 }
+function toolCheck() {
+    if (tools.axe.owned) {
+        worker.lumberjack.productionRate = 2;
+    }
+    if (tools.pickaxe.owned) {
+        worker.quarryWorker.productionRate = 2;
+    }
+    if (tools.shovel.owned) {
+        worker.sandWorker.productionRate = 2;
+    }
+}
+
+
 loadGame();
 function resetGame() {
     const confirmation = confirm("Möchten Sie das Spiel wirklich zurücksetzen? Alle Fortschritte gehen verloren.");
@@ -267,21 +276,6 @@ function resetGame() {
     location.reload();
 
 }
-function toolCheck() {
-    if (hasAxe) {
-        worker.lumberjack.productionRate = 2; // Double production rate if the player has an axe
-    }
-    if (hasPickaxe) {
-        worker.quarryWorker.productionRate = 2; // Double production rate if the player has a pickaxe
-    }
-    if (hasShovel) {
-        worker.sandWorker.productionRate = 2; // Double production rate if the player has a shovel
-    }
-}
-toolCheck();
-
-
-
 const woodCollectButton = document.getElementById('collect-wood');
 woodCollectButton.addEventListener('click', function () {
     collectResource('wood');
@@ -322,15 +316,15 @@ buySandWorkerButton.addEventListener('click', function () {
 });
 const buyAxeButton = document.getElementById('buy-axe');
 buyAxeButton.addEventListener('click', function () {
-    buyAxe();
+    buyTool('axe');
 });
 const buyPickaxeButton = document.getElementById('buy-pickaxe');
 buyPickaxeButton.addEventListener('click', function () {
-    buyPickaxe();
+    buyTool('pickaxe');
 });
 const buyShovelButton = document.getElementById('buy-shovel');
 buyShovelButton.addEventListener('click', function () {
-    buyShovel();
+    buyTool('shovel');
 });
 
 const shopButton = document.getElementById('nav-shop');
