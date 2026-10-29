@@ -1,10 +1,33 @@
+:root {
+    --bg: #1a1210; /* Hintergrund: fast schwarz, leicht braun */
+    --card: #2b1d17; /* Karten: dunkles Rußbraun */
+    --border: #4a3226; /* Ränder */
+    --text: #f3e6d8; /* Text: warmes Weiß */
+    --text-muted: #b39b88; /* Nebentext */
+    --accent: #e07a2f; /* Glut-Orange */
+    --accent-light: #ffb347; /* Funken-Gold */
+}
+@font-face {
+    font-family: 'Cinzel';
+    src: url('fonts/Cinzel-Bold.ttf');
+    font-weight: bold;
+}
+h1 {
+    font-family: 'Cinzel', serif;
+    color: var(--accent-light);
+}
+h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--accent-light);
+}
 html {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: system-ui, 'Segoe UI', sans-serif;
 }
 .resource-card {
-    background-color: #2a2a2a;
-    border: 1px solid #444;
+    background-color: var(--card);
+    border: 1px solid var(--border);
     margin: 10px;
     padding: 10px;
     border-radius: 12px;
@@ -18,16 +41,16 @@ html {
 .resource-name {
     font-size: 18px;
     font-weight: bold;
-    color: #9a9a9a;
+    color: var(--text-muted);
 }
 .resource-amount {
     font-size: 24px;
-    color: #ffffff;
+    color: var(--accent-light);
     font-weight: bold;
 }
 .resource-amountM {
     font-size: 24px;
-    color: #ffd800;
+    color: var(--text);
     font-weight: bold;
 }
 .resource-card p {
@@ -41,7 +64,7 @@ html {
 .sellamountbuttons {
     position: relative;
     display: inline-flex;
-    background-color: #2a2a2a;
+    background-color: var(--card);
     border-radius: 999px;
     padding: 4px;
 }
@@ -51,21 +74,24 @@ html {
         z-index: 1;
         background: transparent;
         border: none;
-        color: #9a9a9a;
+        color: var(--bg);
         padding: 8px 16px;
         cursor: pointer;
         transition: color 0.3s;
     }
 
         .sellamountbuttons button.active {
-            color: #000;
+            color: var(--bg);
+        }
+        .sellamountbuttons button:hover {
+            background: transparent;
         }
 
 .slider {
     position: absolute;
     top: 4px;
     bottom: 4px;
-    background-color: #ffd800;
+    background-color: var(--accent-light);
     border-radius: 999px;
     transition: left 0.3s, width 0.3s;
 }
@@ -74,3 +100,22 @@ html {
     justify-content: space-between;
     align-items: center;
 }
+button {
+    background-color: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-family: inherit;
+}
+
+    button:hover {
+        background-color: var(--accent-light);
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
