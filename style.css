@@ -12,13 +12,13 @@
     src: url('fonts/Cinzel-Bold.ttf');
     font-weight: bold;
 }
-h1 {
+h1, h2 {
     font-family: 'Cinzel', serif;
     color: var(--accent-light);
 }
-h2 {
+.subtitle {
     font-family: 'Cinzel', serif;
-    color: var(--accent-light);
+    color: var(--text-muted);
 }
 html {
     background-color: var(--bg);
