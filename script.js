@@ -82,7 +82,11 @@ const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
 const introScreen = document.getElementById('intro-screen');
 const hammer = document.getElementById('hammer');
+const mainMenu = document.getElementById('main-menu')
 const anvilSound = new Audio('sounds/anvil.mp3');
+const menuSound = new Audio('sounds/Sword.mp3');
+menuSound.loop = true;
+menuSound.volume = 0.4;
 function updateResources() {
     woodAmount.textContent = resources.wood;
     stoneAmount.textContent = resources.stone;
@@ -376,10 +380,16 @@ startGameButton.addEventListener('click', function () {
     }, 400);
     setTimeout(function () {
         introScreen.classList.add('hidden');
-        resourceView.style.display = 'block';
+        mainMenu.classList.remove('hidden');
+        menuSound.play();
     }, 800);
 
 });
+const playButton = document.getElementById('menu-play');
+playButton.addEventListener('click', function () {
+    mainMenu.classList.add('hidden');
+    menuSound.pause();
+})
 
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
 setInterval(function () {

@@ -52,7 +52,7 @@
         transform: translate(0, 0);
     }
 }
-.intro-screen {
+.intro-screen, .menu-screen {
     position: fixed;
     inset: 0;
     z-index: 10;
@@ -63,7 +63,7 @@
     align-items: center;
     transition: opacity 0.8s;
 }
-    .intro-screen.hidden {
+    .intro-screen.hidden, .menu-screen.hidden {
         opacity: 0;
         pointer-events: none;
     }

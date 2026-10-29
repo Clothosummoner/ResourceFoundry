@@ -41,3 +41,9 @@ Einfach den Link oben öffnen – oder das Repository herunterladen und `index.h
 
 - Schriftart: [Cinzel](https://fonts.google.com/specimen/Cinzel) (SIL Open Font License)
 - Amboss-Sound: freesound_community via [Pixabay](https://pixabay.com) (Pixabay Content License)
+- Menümusik: „Sword“ von its_tigri via [Pixabay](https://pixabay.com) (Pixabay Content License)
+- Spielmusik (alle via [Pixabay](https://pixabay.com), Pixabay Content License):
+  - „Medieval Kingdoms“ von Daniel Roberts
+  - „Mountain Knight Castle“ von Vlad Bakutov
+  - „Medieval Celtic Violin“ von _Music_for_Creators_
+  - „Musik Hintergrund“ von OTH Amberg-Weiden
