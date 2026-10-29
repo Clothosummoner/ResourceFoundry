@@ -80,11 +80,7 @@ const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelStatusElement = document.getElementById('shovel-amount');
 const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
-
-
-
-
-
+const introScreen = document.getElementById('intro-screen');
 function updateResources() {
     woodAmount.textContent = resources.wood;
     stoneAmount.textContent = resources.stone;
@@ -368,6 +364,11 @@ stoneUnlockButton.addEventListener('click', function () {
 const sandUnlockButton = document.getElementById('unlock-sand');
 sandUnlockButton.addEventListener('click', function () {
     unlockResource('sand'); 
+});
+const startGameButton = document.getElementById('start-game');
+startGameButton.addEventListener('click', function () {
+    introScreen.style.display = 'none';
+    resourceView.style.display = 'block';
 });
 
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
