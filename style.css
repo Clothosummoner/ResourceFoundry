@@ -7,6 +7,51 @@
     --accent: #e07a2f; /* Glut-Orange */
     --accent-light: #ffb347; /* Funken-Gold */
 }
+.hammer {
+    font-size: 120px;
+    opacity: 0;
+}
+
+    .hammer.strike {
+        animation: strike 0.5s ease-in forwards;
+    }
+
+@keyframes strike {
+    0% {
+        opacity: 1;
+        transform: rotate(40deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(-30deg);
+    }
+}
+.intro-screen.shake {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-8px, 4px);
+    }
+
+    50% {
+        transform: translate(6px, -4px);
+    }
+
+    75% {
+        transform: translate(-4px, 2px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
 .intro-screen {
     position: fixed;
     inset: 0;
@@ -16,17 +61,36 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: opacity 0.8s;
 }
+    .intro-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
 .intro-title {
     font-family: 'Cinzel', serif;
     font-size: 64px;
     color: var(--accent-light);
     margin: 0;
+    animation: glow 3s infinite;
 }
 @font-face {
     font-family: 'Cinzel';
     src: url('fonts/Cinzel-Bold.ttf');
     font-weight: bold;
+}
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 10px var(--accent);
+    }
+
+    50% {
+        text-shadow: 0 0 30px var(--accent-light);
+    }
+
+    100% {
+        text-shadow: 0 0 10px var(--accent);
+    }
 }
 h1, h2 {
     font-family: 'Cinzel', serif;

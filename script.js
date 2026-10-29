@@ -81,6 +81,8 @@ const shovelStatusElement = document.getElementById('shovel-amount');
 const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
 const introScreen = document.getElementById('intro-screen');
+const hammer = document.getElementById('hammer');
+const anvilSound = new Audio('sounds/anvil.mp3');
 function updateResources() {
     woodAmount.textContent = resources.wood;
     stoneAmount.textContent = resources.stone;
@@ -367,8 +369,16 @@ sandUnlockButton.addEventListener('click', function () {
 });
 const startGameButton = document.getElementById('start-game');
 startGameButton.addEventListener('click', function () {
-    introScreen.style.display = 'none';
-    resourceView.style.display = 'block';
+    hammer.classList.add('strike');
+    setTimeout(function () {
+        introScreen.classList.add('shake');
+        anvilSound.play();
+    }, 400);
+    setTimeout(function () {
+        introScreen.classList.add('hidden');
+        resourceView.style.display = 'block';
+    }, 800);
+
 });
 
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button

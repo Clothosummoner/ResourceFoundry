@@ -36,3 +36,8 @@ Ich programmiere ResourceFoundry, um mir Programmieren selbst beizubringen, und 
 ## Starten
 
 Einfach den Link oben öffnen – oder das Repository herunterladen und `index.html` im Browser öffnen.
+
+## Credits
+
+- Schriftart: [Cinzel](https://fonts.google.com/specimen/Cinzel) (SIL Open Font License)
+- Amboss-Sound: freesound_community via [Pixabay](https://pixabay.com) (Pixabay Content License)
