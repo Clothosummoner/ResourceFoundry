@@ -82,7 +82,7 @@ const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
 const introScreen = document.getElementById('intro-screen');
 const hammer = document.getElementById('hammer');
-const mainMenu = document.getElementById('main-menu')
+const mainMenu = document.getElementById('main-menu');
 const anvilSound = new Audio('sounds/anvil.mp3');
 const menuSound = new Audio('sounds/Sword.mp3');
 menuSound.loop = true;
@@ -389,7 +389,12 @@ const playButton = document.getElementById('menu-play');
 playButton.addEventListener('click', function () {
     mainMenu.classList.add('hidden');
     menuSound.pause();
-})
+});
+const menuButton = document.getElementById('nav-menu');
+menuButton.addEventListener('click', function () {
+    mainMenu.classList.remove('hidden');
+    menuSound.play();
+});
 
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
 setInterval(function () {
