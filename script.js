@@ -59,6 +59,7 @@ const tools = {
 };
 let money = 0;
 let selectedAmount = 1;
+let gameMusicStarted = false;
 const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
@@ -87,6 +88,23 @@ const anvilSound = new Audio('sounds/anvil.mp3');
 const menuSound = new Audio('sounds/Sword.mp3');
 menuSound.loop = true;
 menuSound.volume = 0.4;
+const playlist = [
+    { title: 'Medieval Kingdoms', artist: 'Daniel Roberts', file: 'sounds/kingdoms.mp3' },
+    { title: 'Mountain Knight Castle', artist: 'Vlad Bakutov', file: 'sounds/knight-castle.mp3' },
+    { title: 'Medieval Celtic Violin', artist: '_Music_for_Creators_', file: 'sounds/celtic-violine.mp3' },
+    { title: 'Musik Hintergrund', artist: 'OTH Amberg-Weiden', file: 'sounds/hintergrund.mp3' },
+];
+const gameMusic = new Audio();
+gameMusic.volume = 0.4;
+let currentTrack = 0;
+const nowPlayingElement = document.getElementById('now-playing');
+
+function playTrack(index) {
+    const track = playlist[index];
+    gameMusic.src = track.file;
+    gameMusic.play();
+    nowPlayingElement.textContent = '♪ ' + track.title + ' – ' + track.artist;
+}
 function updateResources() {
     woodAmount.textContent = resources.wood;
     stoneAmount.textContent = resources.stone;
@@ -389,11 +407,23 @@ const playButton = document.getElementById('menu-play');
 playButton.addEventListener('click', function () {
     mainMenu.classList.add('hidden');
     menuSound.pause();
+    if (gameMusicStarted) {
+        gameMusic.play();
+    } else {
+        playTrack(currentTrack);
+        gameMusicStarted = true;
+    }
+    
 });
 const menuButton = document.getElementById('nav-menu');
 menuButton.addEventListener('click', function () {
     mainMenu.classList.remove('hidden');
+    gameMusic.pause();
     menuSound.play();
+});
+gameMusic.addEventListener('ended', function () {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    playTrack(currentTrack);
 });
 
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
