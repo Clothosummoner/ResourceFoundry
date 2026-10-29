@@ -1,4 +1,5 @@
 Mengen-Schalter, Lager-Limit, Händler, Foundry, Ressourcen kaufen und Freischaltungen
 Spiel Menü mit einstellungen etc 
-truhen inventar loot system kämpfe gegner 
+truhen inventar loot system kämpfe gegner bosse raids
 quests/random events
+Schmiede für ausrüstungen/amboss 
