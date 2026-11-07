@@ -7,6 +7,12 @@
     --accent: #e07a2f; /* Glut-Orange */
     --accent-light: #ffb347; /* Funken-Gold */
 }
+#mute-button {
+    position: fixed; /* klebt am Fenster, nicht an der Seite */
+    top: 10px; /* 10 Pixel vom oberen Rand */
+    right: 10px; /* 10 Pixel vom linken Rand */
+    z-index: 20; /* liegt ÜBER allem anderen */
+}
 .hammer {
     font-size: 120px;
     opacity: 0;

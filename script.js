@@ -106,6 +106,8 @@ const hammer = document.getElementById('hammer');
 const mainMenu = document.getElementById('main-menu');
 const anvilSound = new Audio('sounds/anvil.mp3');
 const menuSound = new Audio('sounds/Sword.mp3');
+let isMuted = localStorage.getItem('isMuted') === 'true';
+
 menuSound.loop = true;
 menuSound.volume = 0.4;
 const playlist = [
@@ -115,6 +117,7 @@ const playlist = [
     { title: 'Musik Hintergrund', artist: 'OTH Amberg-Weiden', file: 'sounds/hintergrund.mp3' },
 ];
 const gameMusic = new Audio();
+const allSounds = [anvilSound, menuSound, gameMusic];
 gameMusic.volume = 0.4;
 let currentTrack = 0;
 const nowPlayingElement = document.getElementById('now-playing');
@@ -127,6 +130,22 @@ function playTrack(index) {
     gameMusic.play();
     nowPlayingElement.textContent = '♪ ' + track.title + ' – ' + track.artist;
 }
+function toggleMute() {
+    isMuted = !isMuted;
+    applyMute();
+    localStorage.setItem('isMuted', isMuted.toString());
+}
+function applyMute() {
+    for (const sound of allSounds) {
+        sound.muted = isMuted;
+    }
+    if (isMuted) {
+        muteButton.textContent = '🔇';
+    } else {
+        muteButton.textContent = '🔊';
+    }
+}
+
 
 function updateResources() {
     woodAmount.textContent = resources.wood;
@@ -337,6 +356,7 @@ function resetGame() {
     if (!confirmation) {
         return;
     }
+    clearInterval(autosaveTimer);
     localStorage.removeItem('gameState');
     location.reload();
 
@@ -446,12 +466,17 @@ const buySawmillButton = document.getElementById('buy-sawmill');
 buySawmillButton.addEventListener('click', function () {
     buyMachine('sawmill');
 });
+const muteButton = document.getElementById('mute-button');
+muteButton.addEventListener('click', function () {
+    toggleMute();
+});
+applyMute(); // Apply mute state on page load based on localStorage
 const startGameButton = document.getElementById('start-game');
 startGameButton.addEventListener('click', function () {
     hammer.classList.add('strike');
     setTimeout(function () {
         introScreen.classList.add('shake');
-        anvilSound.volume = 0.5;
+        anvilSound.volume = 0.1;
         anvilSound.play();
     }, 400);
     setTimeout(function () {
@@ -499,8 +524,10 @@ setInterval(function () {
         updateResources();
     }
 }, 1000);
-setInterval(function () {
+const autosaveTimer = setInterval(function () {
     saveGame();
 }, 10000);
+
+
 
 
