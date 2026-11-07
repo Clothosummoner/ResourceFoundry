@@ -1,12 +1,14 @@
 const resources = {
     wood: 0,
     stone: 0,
-    sand: 0
+    sand: 0,
+    planks: 0
 };
 const sellPrices = {
     wood: 1,
     stone: 2,
-    sand: 3
+    sand: 3,
+    planks: 6
 };
 const worker = {
     lumberjack: {
@@ -23,6 +25,20 @@ const worker = {
         count: 0,
         baseCost: 30,
         productionRate: 1
+    }
+};
+const machines = {
+    sawmill: {
+        unlocked: false,
+        costResource: 'money',
+        inputResource: 'wood',
+        inputAmount: 100,
+        outputResource: 'planks',
+        outputAmount: 20,
+        cost: 2000,
+        duration: 60,
+        running: false,
+        progress: 0
     }
 };
 const unlocks = {
@@ -64,8 +80,10 @@ const woodAmount = document.getElementById('wood-amount');
 const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
+const planksAmount = document.getElementById('planks-amount');
 const shopView = document.getElementById('shop-view');
 const resourceView = document.getElementById('resource-view');
+const machineView = document.getElementById('machine-view');
 const lumberjackCountElement = document.getElementById('lumberjack-amount');
 const quarryWorkerCountElement = document.getElementById('quarry-worker-amount'); 
 const sandWorkerCountElement = document.getElementById('sand-worker-amount');
@@ -76,6 +94,8 @@ const stoneLockedElement = document.getElementById('stoneLocked');
 const sandLockedElement = document.getElementById('sandLocked');
 const stoneUnlockedElement = document.getElementById('stoneUnlocked');
 const sandUnlockedElement = document.getElementById('sandUnlocked');
+const planksLockedElement = document.getElementById('planksLocked');
+const planksUnlockedElement = document.getElementById('planksUnlocked');
 const axeStatusElement = document.getElementById('axe-amount');
 const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelStatusElement = document.getElementById('shovel-amount');
@@ -99,16 +119,20 @@ gameMusic.volume = 0.4;
 let currentTrack = 0;
 const nowPlayingElement = document.getElementById('now-playing');
 
+
+
 function playTrack(index) {
     const track = playlist[index];
     gameMusic.src = track.file;
     gameMusic.play();
     nowPlayingElement.textContent = '♪ ' + track.title + ' – ' + track.artist;
 }
+
 function updateResources() {
     woodAmount.textContent = resources.wood;
     stoneAmount.textContent = resources.stone;
     sandAmount.textContent = resources.sand;
+    planksAmount.textContent = resources.planks;
     moneyAmount.textContent = money;
     lumberjackCountElement.textContent = worker.lumberjack.count;
     quarryWorkerCountElement.textContent = worker.quarryWorker.count;
@@ -145,6 +169,13 @@ function updateResources() {
     } else {
         sandUnlockedElement.style.display = 'none';
         sandLockedElement.style.display = 'block';
+    }
+    if (machines.sawmill.unlocked) {
+        planksLockedElement.style.display = 'none';
+        planksUnlockedElement.style.display = 'block';
+    } else {
+        planksUnlockedElement.style.display = 'none';
+        planksLockedElement.style.display = 'block';
     }
     updateLockedItems();
 
@@ -237,12 +268,22 @@ function buyTool(toolType) {
         updateResources();
     }
 }
+function buyMachine(machineType) {
+    const cost = machines[machineType].cost;
+    const unlocked = machines[machineType].unlocked;
+    if (money >= cost && !unlocked) {
+        money -= cost;
+        machines[machineType].unlocked = true;
+        updateResources();
+    }
+}
 function saveGame() {
     const gameState = {
         resources: resources,
         money: money,
         worker: worker,
         tools : tools,
+        machines: machines,
         unlocks: unlocks
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
@@ -254,6 +295,7 @@ function loadGame() {
         resources.wood = gameState.resources.wood ?? 0;
         resources.stone = gameState.resources.stone ?? 0;
         resources.sand = gameState.resources.sand ?? 0;
+        resources.planks = gameState.resources.planks ?? 0;
         money = gameState.money ?? 0;
         if (gameState.worker) {
             worker.lumberjack.count = gameState.worker.lumberjack.count ?? 0;
@@ -268,6 +310,9 @@ function loadGame() {
             tools.axe.owned = gameState.tools.axe.owned ?? false;
             tools.pickaxe.owned = gameState.tools.pickaxe.owned ?? false;
             tools.shovel.owned = gameState.tools.shovel.owned ?? false;
+        }
+        if (gameState.machines) {
+            machines.sawmill.unlocked = gameState.machines.sawmill.unlocked ?? false;
         }
         toolCheck();
         updateResources();
@@ -350,12 +395,20 @@ buyShovelButton.addEventListener('click', function () {
 const shopButton = document.getElementById('nav-shop');
 shopButton.addEventListener('click', function () {
     resourceView.style.display = 'none';
+    machineView.style.display = 'none';
     shopView.style.display = 'block';
 });
 const resourceButton = document.getElementById('nav-resources');
 resourceButton.addEventListener('click', function () {
     shopView.style.display = 'none';
+    machineView.style.display = 'none';
     resourceView.style.display = 'block';
+});
+const machinesButton = document.getElementById('nav-machines');
+machinesButton.addEventListener('click', function () {
+    shopView.style.display = 'none';
+    resourceView.style.display = 'none';
+    machineView.style.display = 'block';
 });
 const saveButton = document.getElementById('save-game');
 saveButton.addEventListener('click', function () {
@@ -389,11 +442,16 @@ const sandUnlockButton = document.getElementById('unlock-sand');
 sandUnlockButton.addEventListener('click', function () {
     unlockResource('sand'); 
 });
+const buySawmillButton = document.getElementById('buy-sawmill');
+buySawmillButton.addEventListener('click', function () {
+    buyMachine('sawmill');
+});
 const startGameButton = document.getElementById('start-game');
 startGameButton.addEventListener('click', function () {
     hammer.classList.add('strike');
     setTimeout(function () {
         introScreen.classList.add('shake');
+        anvilSound.volume = 0.5;
         anvilSound.play();
     }, 400);
     setTimeout(function () {

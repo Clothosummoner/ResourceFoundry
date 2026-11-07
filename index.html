@@ -23,6 +23,7 @@
     <div class="top-bar">
         <button id="nav-resources">Ressourcen</button>
         <button id="nav-shop">Shop</button>
+        <button id="nav-machines">Maschinen</button>
         <button id="save-game">Spiel speichern</button>
         <button id="reset-game">Spiel zurücksetzen</button>
         <button id="nav-menu">Menü</button>
@@ -35,7 +36,16 @@
         </div>
         <p id="now-playing"></p>
     </div>
-
+    <div class="machine-view" id="machine-view">
+        <h2>Maschinen</h2>
+        <div class="machine-grid">
+            <div class="machine-card" data-requires="wood">
+                <p class="machine-name">Säge</p>
+                <p class="machine-description">Verwandelt Holz in Bretter</p>
+                <button id="buy-sawmill">Säge kaufen (2000 Geld)</button>
+            </div>
+        </div>
+    </div>
     <div class="resource-view" id="resource-view">
         <h2>Ressourcen</h2>
 
@@ -74,6 +84,17 @@
                     <p class="resource-amount" id="sand-amount">0</p>
                     <button id="collect-sand">Sand sammeln</button>
                     <button id="sell-sand">Sand verkaufen (3 Geld)</button>
+                </div>
+            </div>
+            <div class="resource-card">
+                <div class="planksLocked" id="planksLocked">
+                    <p class="resource-name">Bretter</p>
+                    <p class="resource-name">Benötigt Säge</p>
+                </div>
+                <div class="planksUnlocked" id="planksUnlocked">
+                    <p class="resource-name">Bretter</p>
+                    <p class="resource-amount" id="planks-amount">0</p>
+                    <button id="sell-planks">Bretter verkaufen (6 Geld)</button>
                 </div>
             </div>
         </div>

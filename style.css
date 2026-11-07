@@ -199,3 +199,19 @@ button {
     button:active {
         transform: scale(0.95);
     }
+.machine-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    margin: 10px;
+    padding: 10px;
+    border-radius: 12px;
+}
+.machine-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 20px;
+}
+.machine-view {
+    display: none;
+}
