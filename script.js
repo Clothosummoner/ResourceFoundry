@@ -315,6 +315,18 @@ function startMachine(machineType) {
         updateResources();
     }
 }
+function updateMachine(machineType) {
+    const machine = machines[machineType];
+    if (machine.running) {
+        machine.progress++;
+        if (machine.progress >= machine.duration) {
+            machine.running = false;
+            resources[machine.outputResource] += machine.outputAmount;
+            machine.progress = 0;
+            updateResources();
+        }
+    }
+}
 function saveGame() {
     const gameState = {
         resources: resources,
@@ -543,6 +555,9 @@ setInterval(function () {
     if (worker.sandWorker.count > 0) {
         resources.sand += worker.sandWorker.count * worker.sandWorker.productionRate;
         updateResources();
+    }
+    for (const machineType in machines) {
+        updateMachine(machineType);
     }
 }, 1000);
 const autosaveTimer = setInterval(function () {
