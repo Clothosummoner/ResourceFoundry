@@ -373,7 +373,10 @@ function loadGame() {
         }
         if (gameState.machines) {
             machines.sawmill.unlocked = gameState.machines.sawmill.unlocked ?? false;
+            machines.sawmill.running = gameState.machines.sawmill.running ?? false;
+            machines.sawmill.progress = gameState.machines.sawmill.progress ?? 0;
         }
+
         toolCheck();
         updateResources();
     }
