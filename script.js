@@ -83,6 +83,8 @@ const moneyAmount = document.getElementById('money-amount');
 const planksAmount = document.getElementById('planks-amount');
 const startSawmillButton = document.getElementById('start-sawmill');
 const buySawmillButton = document.getElementById('buy-sawmill');
+const sawmillTimer = document.getElementById('sawmill-timer');
+const sawmillProgress = document.getElementById('sawmill-progress');
 const shopView = document.getElementById('shop-view');
 const resourceView = document.getElementById('resource-view');
 const machineView = document.getElementById('machine-view');
@@ -109,8 +111,6 @@ const mainMenu = document.getElementById('main-menu');
 const anvilSound = new Audio('sounds/anvil.mp3');
 const menuSound = new Audio('sounds/Sword.mp3');
 let isMuted = localStorage.getItem('isMuted') === 'true';
-
-
 menuSound.loop = true;
 menuSound.volume = 0.4;
 const playlist = [
@@ -206,6 +206,16 @@ function updateResources() {
         buySawmillButton.style.display = 'inline-block';
         startSawmillButton.style.display = 'none';
     }
+    if (machines.sawmill.running) {
+        startSawmillButton.style.display = 'none';
+        const duration = machines.sawmill.duration;
+        const progress = machines.sawmill.progress;
+        const timer = duration - progress;
+        sawmillTimer.textContent = `Noch ${timer} s`;
+    } else {
+        sawmillTimer.textContent = '';
+    }
+    sawmillProgress.style.width = machines.sawmill.progress / machines.sawmill.duration * 100 + '%';
     updateLockedItems();
 
 }
@@ -323,8 +333,8 @@ function updateMachine(machineType) {
             machine.running = false;
             resources[machine.outputResource] += machine.outputAmount;
             machine.progress = 0;
-            updateResources();
         }
+        updateResources();
     }
 }
 function saveGame() {
