@@ -46,7 +46,7 @@ const unlocks = {
         unlocked: true,
     },
     stone: {
-        unlocked: false, 
+        unlocked: false,
         costResource: 'wood',
         cost: 500
     },
@@ -81,11 +81,13 @@ const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
 const planksAmount = document.getElementById('planks-amount');
+const startSawmillButton = document.getElementById('start-sawmill');
+const buySawmillButton = document.getElementById('buy-sawmill');
 const shopView = document.getElementById('shop-view');
 const resourceView = document.getElementById('resource-view');
 const machineView = document.getElementById('machine-view');
 const lumberjackCountElement = document.getElementById('lumberjack-amount');
-const quarryWorkerCountElement = document.getElementById('quarry-worker-amount'); 
+const quarryWorkerCountElement = document.getElementById('quarry-worker-amount');
 const sandWorkerCountElement = document.getElementById('sand-worker-amount');
 const lumberjackCostElement = document.getElementById('lumberjack-cost');
 const quarryWorkerCostElement = document.getElementById('quarry-worker-cost');
@@ -107,6 +109,7 @@ const mainMenu = document.getElementById('main-menu');
 const anvilSound = new Audio('sounds/anvil.mp3');
 const menuSound = new Audio('sounds/Sword.mp3');
 let isMuted = localStorage.getItem('isMuted') === 'true';
+
 
 menuSound.loop = true;
 menuSound.volume = 0.4;
@@ -196,6 +199,13 @@ function updateResources() {
         planksUnlockedElement.style.display = 'none';
         planksLockedElement.style.display = 'block';
     }
+    if (machines.sawmill.unlocked) {
+        buySawmillButton.style.display = 'none';
+        startSawmillButton.style.display = 'inline-block';
+    } else {
+        buySawmillButton.style.display = 'inline-block';
+        startSawmillButton.style.display = 'none';
+    }
     updateLockedItems();
 
 }
@@ -246,15 +256,15 @@ function getMaxAffordableAmount(workerType) {
     let amount = 0;
     let total = 0;
     while (total + getCost(worker[workerType].baseCost, worker[workerType].count + amount) <= money) {
-       total += getCost(worker[workerType].baseCost, worker[workerType].count + amount);
-       amount++;
+        total += getCost(worker[workerType].baseCost, worker[workerType].count + amount);
+        amount++;
     }
     return amount;
 }
 function unlockResource(resource) {
     const payWith = unlocks[resource].costResource;   // z. B. 'wood'
     const cost = unlocks[resource].cost;              // z. B. 500
-    if (resources[payWith] >= cost && !unlocks[resource].unlocked ) {
+    if (resources[payWith] >= cost && !unlocks[resource].unlocked) {
         resources[payWith] -= cost;
         unlocks[resource].unlocked = true;
         updateResources();
@@ -296,12 +306,21 @@ function buyMachine(machineType) {
         updateResources();
     }
 }
+function startMachine(machineType) {
+    const machine = machines[machineType];
+    if (machine.unlocked && !machine.running && resources[machine.inputResource] >= machine.inputAmount) {
+        resources[machine.inputResource] -= machine.inputAmount;
+        machine.running = true;
+        machine.progress = 0;
+        updateResources();
+    }
+}
 function saveGame() {
     const gameState = {
         resources: resources,
         money: money,
         worker: worker,
-        tools : tools,
+        tools: tools,
         machines: machines,
         unlocks: unlocks
     };
@@ -460,11 +479,13 @@ stoneUnlockButton.addEventListener('click', function () {
 });
 const sandUnlockButton = document.getElementById('unlock-sand');
 sandUnlockButton.addEventListener('click', function () {
-    unlockResource('sand'); 
+    unlockResource('sand');
 });
-const buySawmillButton = document.getElementById('buy-sawmill');
 buySawmillButton.addEventListener('click', function () {
     buyMachine('sawmill');
+});
+startSawmillButton.addEventListener('click', function () {
+    startMachine('sawmill');
 });
 const muteButton = document.getElementById('mute-button');
 muteButton.addEventListener('click', function () {
@@ -496,7 +517,7 @@ playButton.addEventListener('click', function () {
         playTrack(currentTrack);
         gameMusicStarted = true;
     }
-    
+
 });
 const menuButton = document.getElementById('nav-menu');
 menuButton.addEventListener('click', function () {
