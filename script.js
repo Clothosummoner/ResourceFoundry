@@ -431,6 +431,10 @@ const sandSellButton = document.getElementById('sell-sand');
 sandSellButton.addEventListener('click', function () {
     sellResource('sand');
 });
+const planksSellButton = document.getElementById('sell-planks');
+planksSellButton.addEventListener('click', function () {
+    sellResource('planks');
+});
 const buyLumberjackButton = document.getElementById('buy-lumberjack');
 buyLumberjackButton.addEventListener('click', function () {
     buyWorker('lumberjack');
