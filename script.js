@@ -272,8 +272,8 @@ function getMaxAffordableAmount(workerType) {
     return amount;
 }
 function unlockResource(resource) {
-    const payWith = unlocks[resource].costResource;   // z. B. 'wood'
-    const cost = unlocks[resource].cost;              // z. B. 500
+    const payWith = unlocks[resource].costResource;   
+    const cost = unlocks[resource].cost;              
     if (resources[payWith] >= cost && !unlocks[resource].unlocked) {
         resources[payWith] -= cost;
         unlocks[resource].unlocked = true;
