@@ -1,6 +1,6 @@
 # ResourceFoundry
 
-Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeiter ein, schalte neue Ressourcen frei und verarbeite Holz mit der Säge zu Brettern.
+Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeiter ein, schalte neue Ressourcen frei und verarbeite sie in Maschinen weiter.
 
 **Jetzt spielen:** https://clothosummoner.github.io/ResourceFoundry/
 
@@ -12,8 +12,12 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 - Arbeiter einstellen, die automatisch produzieren, jeder weitere Arbeiter wird teurer
 - Werkzeuge kaufen, die die Produktion der passenden Arbeiter verdoppeln
 - Stein und Sand müssen erst freigeschaltet werden; passende Shop-Angebote erscheinen erst danach
-- **Maschinen:** Die Säge verarbeitet 100 Holz in 60 Sekunden zu 20 Brettern, mit Timer und Fortschrittsbalken. Bretter lassen sich für 6 Geld verkaufen.
-- Automatisches Speichern alle 10 Sekunden, manuelles Speichern und Zurücksetzen; auch eine laufende Säge wird mitgespeichert
+- **Maschinen**, jeweils mit Timer und Fortschrittsbalken:
+  - Säge: 100 Holz → 20 Bretter in 60 Sekunden
+  - Ofen: 150 Stein → 20 Ziegel in 90 Sekunden
+  - Glashütte: 200 Sand → 20 Glas in 120 Sekunden
+- Verarbeitete Produkte bringen mehr Geld als ihre Rohstoffe, und jede neue Maschine lohnt sich mehr als die vorherige
+- Automatisches Speichern alle 10 Sekunden, manuelles Speichern und Zurücksetzen; auch laufende Maschinen werden mitgespeichert
 
 ### Präsentation
 - Intro mit Hammer-Animation und Amboss-Sound
@@ -25,13 +29,14 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 ## Technik
 
 - HTML, CSS und JavaScript – ohne Frameworks oder Bibliotheken
-- Spielstand wird mit `localStorage` als JSON gespeichert; ältere Spielstände werden beim Laden abgefangen
-- Spieldaten (Arbeiter, Werkzeuge, Maschinen, Freischaltungen) liegen in Objekten, sodass z. B. eine Funktion `buyTool(toolType)` alle Werkzeuge abdeckt
+- Spielstand wird mit `localStorage` als JSON gespeichert; ältere Spielstände ohne neue Inhalte werden beim Laden mit `?.` und `??` abgefangen
+- Spieldaten (Arbeiter, Werkzeuge, Maschinen, Freischaltungen) liegen in Objekten, sodass z. B. `buyTool(toolType)` alle Werkzeuge und `startMachine(machineType)` alle Maschinen abdeckt
 - Kosten steigen exponentiell: `Grundpreis × 1,15^Anzahl`
 - Shop-Elemente werden über `data-requires`-Attribute im HTML gesteuert
 - Maschinen laufen in der Spielschleife mit; Timer und Fortschrittsbalken werden aus Fortschritt und Dauer berechnet
+- Verkaufspreise ausbalanciert: Verarbeiten lohnt sich, und jede Maschine bringt mehr Gewinn pro Minute als die vorherige
 - Musik über das `Audio`-Objekt: Das `ended`-Event startet das nächste Lied, mit `%` beginnt die Playlist danach wieder von vorn
-- Entwicklung mit Git in kleinen Commits; das neue Design habe ich auf einem eigenen Branch gebaut und danach in `master` gemergt
+- Entwicklung mit Git in kleinen Commits; größere Funktionen (Design, Maschinen) baue ich auf eigenen Branches und merge sie danach in `master`
 
 ## Über das Projekt
 
@@ -39,7 +44,6 @@ Ich programmiere ResourceFoundry, um mir Programmieren selbst beizubringen, und 
 
 ## Geplant
 
-- Weitere Maschinen: Stein → Ziegel, Sand → Glas
 - Lager-Limit mit ausbaubarem Lager
 - Händler und automatischer Verkauf
 - Einstellungen im Menü, z. B. Lautstärke
