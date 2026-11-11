@@ -2,13 +2,17 @@ const resources = {
     wood: 0,
     stone: 0,
     sand: 0,
-    planks: 0
+    planks: 0,
+    bricks: 0,
+    glass: 0
 };
 const sellPrices = {
     wood: 1,
     stone: 2,
     sand: 3,
-    planks: 6
+    planks: 8,
+    bricks: 25,
+    glass: 50
 };
 const worker = {
     lumberjack: {
@@ -39,8 +43,35 @@ const machines = {
         duration: 60,
         running: false,
         progress: 0
-    }
-};
+    },
+    furnace: {
+        unlocked: false,
+        costResource: 'money',
+        inputResource: 'stone',
+        inputAmount: 150,
+        outputResource: 'bricks',
+        outputAmount: 20,
+        cost: 3000,
+        duration: 90,
+        running: false,
+        progress: 0
+
+    },
+    glassWorks: {
+        unlocked: false,
+        costResource: 'money',
+        inputResource: 'sand',
+        inputAmount: 200,
+        outputResource: 'glass',
+        outputAmount: 20,
+        cost: 4000,
+        duration: 120,
+        running: false,
+        progress: 0
+
+    },
+
+}
 const unlocks = {
     wood: {
         unlocked: true,
@@ -81,6 +112,16 @@ const stoneAmount = document.getElementById('stone-amount');
 const sandAmount = document.getElementById('sand-amount');
 const moneyAmount = document.getElementById('money-amount');
 const planksAmount = document.getElementById('planks-amount');
+const bricksAmount = document.getElementById('bricks-amount');
+const glassAmount = document.getElementById('glass-amount');
+const startFurnaceButton = document.getElementById('start-furnace');
+const buyFurnaceButton = document.getElementById('buy-furnace');
+const furnaceTimer = document.getElementById('furnace-timer');
+const furnaceProgress = document.getElementById('furnace-progress');
+const startGlassWorksButton = document.getElementById('start-glassworks');
+const buyGlassWorksButton = document.getElementById('buy-glassworks');
+const glassWorksTimer = document.getElementById('glassworks-timer');
+const glassWorksProgress = document.getElementById('glassworks-progress');
 const startSawmillButton = document.getElementById('start-sawmill');
 const buySawmillButton = document.getElementById('buy-sawmill');
 const sawmillTimer = document.getElementById('sawmill-timer');
@@ -100,6 +141,10 @@ const stoneUnlockedElement = document.getElementById('stoneUnlocked');
 const sandUnlockedElement = document.getElementById('sandUnlocked');
 const planksLockedElement = document.getElementById('planksLocked');
 const planksUnlockedElement = document.getElementById('planksUnlocked');
+const bricksLockedElement = document.getElementById('bricksLocked');
+const bricksUnlockedElement = document.getElementById('bricksUnlocked');
+const glassLockedElement = document.getElementById('glassLocked');
+const glassUnlockedElement = document.getElementById('glassUnlocked');
 const axeStatusElement = document.getElementById('axe-amount');
 const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelStatusElement = document.getElementById('shovel-amount');
@@ -155,6 +200,8 @@ function updateResources() {
     stoneAmount.textContent = resources.stone;
     sandAmount.textContent = resources.sand;
     planksAmount.textContent = resources.planks;
+    bricksAmount.textContent = resources.bricks;
+    glassAmount.textContent = resources.glass;
     moneyAmount.textContent = money;
     lumberjackCountElement.textContent = worker.lumberjack.count;
     quarryWorkerCountElement.textContent = worker.quarryWorker.count;
@@ -216,6 +263,54 @@ function updateResources() {
         sawmillTimer.textContent = '';
     }
     sawmillProgress.style.width = machines.sawmill.progress / machines.sawmill.duration * 100 + '%';
+    if (machines.furnace.unlocked) {
+        bricksLockedElement.style.display = 'none';
+        bricksUnlockedElement.style.display = 'block';
+    } else {
+        bricksUnlockedElement.style.display = 'none';
+        bricksLockedElement.style.display = 'block';
+    }
+    if (machines.furnace.unlocked) {
+        buyFurnaceButton.style.display = 'none';
+        startFurnaceButton.style.display = 'inline-block';
+    } else {
+        buyFurnaceButton.style.display = 'inline-block';
+        startFurnaceButton.style.display = 'none';
+    }
+    if (machines.furnace.running) {
+        startFurnaceButton.style.display = 'none';
+        const duration = machines.furnace.duration;
+        const progress = machines.furnace.progress;
+        const timer = duration - progress;
+        furnaceTimer.textContent = `Noch ${timer} s`;
+    } else {
+        furnaceTimer.textContent = '';
+    }
+    furnaceProgress.style.width = machines.furnace.progress / machines.furnace.duration * 100 + '%';
+    if (machines.glassWorks.unlocked) {
+        glassLockedElement.style.display = 'none';
+        glassUnlockedElement.style.display = 'block';
+    } else {
+        glassUnlockedElement.style.display = 'none';
+        glassLockedElement.style.display = 'block';
+    }
+    if (machines.glassWorks.unlocked) {
+        buyGlassWorksButton.style.display = 'none';
+        startGlassWorksButton.style.display = 'inline-block';
+    } else {
+        buyGlassWorksButton.style.display = 'inline-block';
+        startGlassWorksButton.style.display = 'none';
+    }
+    if (machines.glassWorks.running) {
+        startGlassWorksButton.style.display = 'none';
+        const duration = machines.glassWorks.duration;
+        const progress = machines.glassWorks.progress;
+        const timer = duration - progress;
+        glassWorksTimer.textContent = `Noch ${timer} s`;
+    } else {
+        glassWorksTimer.textContent = '';
+    }
+    glassWorksProgress.style.width = machines.glassWorks.progress / machines.glassWorks.duration * 100 + '%';
     updateLockedItems();
 
 }
@@ -356,6 +451,8 @@ function loadGame() {
         resources.stone = gameState.resources.stone ?? 0;
         resources.sand = gameState.resources.sand ?? 0;
         resources.planks = gameState.resources.planks ?? 0;
+        resources.bricks = gameState.resources.bricks ?? 0;
+        resources.glass = gameState.resources.glass ?? 0;
         money = gameState.money ?? 0;
         if (gameState.worker) {
             worker.lumberjack.count = gameState.worker.lumberjack.count ?? 0;
@@ -372,9 +469,15 @@ function loadGame() {
             tools.shovel.owned = gameState.tools.shovel.owned ?? false;
         }
         if (gameState.machines) {
-            machines.sawmill.unlocked = gameState.machines.sawmill.unlocked ?? false;
-            machines.sawmill.running = gameState.machines.sawmill.running ?? false;
-            machines.sawmill.progress = gameState.machines.sawmill.progress ?? 0;
+            machines.sawmill.unlocked = gameState.machines.sawmill?.unlocked ?? false;
+            machines.sawmill.running = gameState.machines.sawmill?.running ?? false;
+            machines.sawmill.progress = gameState.machines.sawmill?.progress ?? 0;
+            machines.furnace.unlocked = gameState.machines.furnace?.unlocked ?? false;
+            machines.furnace.running = gameState.machines.furnace?.running ?? false;
+            machines.furnace.progress = gameState.machines.furnace?.progress ?? 0;
+            machines.glassWorks.unlocked = gameState.machines.glassWorks?.unlocked ?? false;
+            machines.glassWorks.running = gameState.machines.glassWorks?.running ?? false;
+            machines.glassWorks.progress = gameState.machines.glassWorks?.progress ?? 0;
         }
 
         toolCheck();
@@ -434,6 +537,14 @@ sandSellButton.addEventListener('click', function () {
 const planksSellButton = document.getElementById('sell-planks');
 planksSellButton.addEventListener('click', function () {
     sellResource('planks');
+});
+const bricksSellButton = document.getElementById('sell-bricks');
+bricksSellButton.addEventListener('click', function () {
+    sellResource('bricks');
+});
+const glassSellButton = document.getElementById('sell-glass');
+glassSellButton.addEventListener('click', function () {
+    sellResource('glass');
 });
 const buyLumberjackButton = document.getElementById('buy-lumberjack');
 buyLumberjackButton.addEventListener('click', function () {
@@ -515,6 +626,18 @@ buySawmillButton.addEventListener('click', function () {
 });
 startSawmillButton.addEventListener('click', function () {
     startMachine('sawmill');
+});
+buyFurnaceButton.addEventListener('click', function () {
+    buyMachine('furnace');
+});
+startFurnaceButton.addEventListener('click', function () {
+    startMachine('furnace');
+});
+buyGlassWorksButton.addEventListener('click', function () {
+    buyMachine('glassWorks');
+});
+startGlassWorksButton.addEventListener('click', function () {
+    startMachine('glassWorks');
 });
 const muteButton = document.getElementById('mute-button');
 muteButton.addEventListener('click', function () {
