@@ -20,6 +20,7 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 - Automatisches Speichern alle 10 Sekunden, manuelles Speichern und Zurücksetzen; auch laufende Maschinen werden mitgespeichert
 
 ### Präsentation
+- Selbst gepixelte Icons für alle Rohstoffe, Produkte und Maschinen
 - Intro mit Hammer-Animation und Amboss-Sound
 - Hauptmenü mit eigener Menümusik
 - Spielmusik als Playlist mit vier Titeln, der aktuelle Titel wird angezeigt
@@ -34,6 +35,7 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 - Kosten steigen exponentiell: `Grundpreis × 1,15^Anzahl`
 - Shop-Elemente werden über `data-requires`-Attribute im HTML gesteuert
 - Maschinen laufen in der Spielschleife mit; Timer und Fortschrittsbalken werden aus Fortschritt und Dauer berechnet
+- Pixel-Art-Icons in 16×16 (Rohstoffe) und 32×32 (Maschinen) Pixeln, im Spiel einheitlich auf das Doppelte vergrößert, damit alle Pixel gleich groß sind; `image-rendering: pixelated` hält sie scharf, und ein helleres Feld dahinter sorgt für Kontrast auf den dunklen Karten
 - Verkaufspreise ausbalanciert: Verarbeiten lohnt sich, und jede Maschine bringt mehr Gewinn pro Minute als die vorherige
 - Musik über das `Audio`-Objekt: Das `ended`-Event startet das nächste Lied, mit `%` beginnt die Playlist danach wieder von vorn
 - Entwicklung mit Git in kleinen Commits; größere Funktionen (Design, Maschinen) baue ich auf eigenen Branches und merge sie danach in `master`
@@ -55,6 +57,7 @@ Einfach den Link oben öffnen – oder das Repository herunterladen und `index.h
 
 ## Credits
 
+- Icons: selbst gezeichnet mit [Piskel](https://www.piskelapp.com)
 - Schriftart: [Cinzel](https://fonts.google.com/specimen/Cinzel) (SIL Open Font License)
 - Amboss-Sound: freesound_community via [Pixabay](https://pixabay.com) (Pixabay Content License)
 - Menümusik: „Sword“ von its_tigri via [Pixabay](https://pixabay.com) (Pixabay Content License)
