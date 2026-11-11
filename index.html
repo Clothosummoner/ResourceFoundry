@@ -41,6 +41,7 @@
         <h2>Maschinen</h2>
         <div class="machine-grid">
             <div class="machine-card" data-requires="wood">
+                <img class="machine-icon" src="images/sawmill.png" alt="">
                 <p class="machine-name">Säge</p>
                 <p class="machine-description">Verwandelt Holz in Bretter</p>
                 <button id="buy-sawmill">Säge kaufen (2000 Geld)</button>
@@ -51,6 +52,7 @@
                 </div>
             </div>
             <div class="machine-card" data-requires="stone">
+                <img class="machine-icon" src="images/furnace.png" alt="">
                 <p class="machine-name">Ofen</p>
                 <p class="machine-description">Verwandelt Stein in Ziegel</p>
                 <button id="buy-furnace">Ofen kaufen (3000 Geld)</button>
@@ -61,39 +63,40 @@
                 </div>
             </div>
             <div class="machine-card" data-requires="sand">
-            <p class="machine-name">Glashütte</p>
-            <p class="machine-description">Verwandelt Sand in Glas</p>
-            <button id="buy-glassworks">Glashütte kaufen (4000 Geld)</button>
-            <button id="start-glassworks">Glashütte starten (200 Sand)</button>
-            <p id="glassworks-timer"></p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="glassworks-progress"></div>
+                <img class="machine-icon" src="images/glassworks.png" alt="">
+                <p class="machine-name">Glashütte</p>
+                <p class="machine-description">Verwandelt Sand in Glas</p>
+                <button id="buy-glassworks">Glashütte kaufen (4000 Geld)</button>
+                <button id="start-glassworks">Glashütte starten (200 Sand)</button>
+                <p id="glassworks-timer"></p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="glassworks-progress"></div>
+                </div>
             </div>
         </div>
     </div>
-        </div>
     <div class="resource-view" id="resource-view">
         <h2>Ressourcen</h2>
 
         <div class="resource-grid">
 
             <div class="resource-card">
-                <p class="resource-name">Geld</p>
+                <p class="resource-name"><img class="icon" src="images/money.png" alt=""> Geld</p>
                 <p class="resource-amountM" id="money-amount">0</p>
             </div>
             <div class="resource-card">
-                <p class="resource-name">Holz</p>
+                <p class="resource-name"><img class="icon" src="images/wood.png" alt=""> Holz</p>
                 <p class="resource-amount" id="wood-amount">0</p>
                 <button id="collect-wood">Holz sammeln</button>
                 <button id="sell-wood">Holz verkaufen (1 Geld)</button>
             </div>
             <div class="resource-card">
                 <div class="stoneLocked" id="stoneLocked">
-                    <p class="resource-name">Stein</p>
+                    <p class="resource-name"><img class="icon" src="images/stone.png" alt=""> Stein</p>
                     <button id="unlock-stone">Stein freischalten (500 Holz)</button>
                 </div>
                 <div class="stoneUnlocked" id="stoneUnlocked">
-                    <p class="resource-name">Stein</p>
+                    <p class="resource-name"><img class="icon" src="images/stone.png" alt=""> Stein</p>
                     <p class="resource-amount" id="stone-amount">0</p>
                     <button id="collect-stone">Stein sammeln</button>
                     <button id="sell-stone">Stein verkaufen (2 Geld)</button>
@@ -102,11 +105,11 @@
             </div>
             <div class="resource-card">
                 <div class="sandLocked" id="sandLocked">
-                    <p class="resource-name">Sand</p>
+                    <p class="resource-name"><img class="icon" src="images/sand.png" alt=""> Sand</p>
                     <button id="unlock-sand">Sand freischalten (1000 Stein)</button>
                 </div>
                 <div class="sandUnlocked" id="sandUnlocked">
-                    <p class="resource-name">Sand</p>
+                    <p class="resource-name"><img class="icon" src="images/sand.png" alt=""> Sand</p>
                     <p class="resource-amount" id="sand-amount">0</p>
                     <button id="collect-sand">Sand sammeln</button>
                     <button id="sell-sand">Sand verkaufen (3 Geld)</button>
@@ -114,33 +117,33 @@
             </div>
             <div class="resource-card">
                 <div class="planksLocked" id="planksLocked">
-                    <p class="resource-name">Bretter</p>
+                    <p class="resource-name"><img class="icon" src="images/planks.png" alt=""> Bretter</p>
                     <p class="resource-name">Benötigt Säge</p>
                 </div>
                 <div class="planksUnlocked" id="planksUnlocked">
-                    <p class="resource-name">Bretter</p>
+                    <p class="resource-name"><img class="icon" src="images/planks.png" alt=""> Bretter</p>
                     <p class="resource-amount" id="planks-amount">0</p>
                     <button id="sell-planks">Bretter verkaufen (8 Geld)</button>
                 </div>
             </div>
             <div class="resource-card">
                 <div class="bricksLocked" id="bricksLocked">
-                    <p class="resource-name">Ziegel</p>
+                    <p class="resource-name"><img class="icon" src="images/bricks.png" alt=""> Ziegel</p>
                     <p class="resource-name">Benötigt Ofen</p>
                 </div>
                 <div class="bricksUnlocked" id="bricksUnlocked">
-                    <p class="resource-name">Ziegel</p>
+                    <p class="resource-name"><img class="icon" src="images/bricks.png" alt=""> Ziegel</p>
                     <p class="resource-amount" id="bricks-amount">0</p>
                     <button id="sell-bricks">Ziegel verkaufen (25 Geld)</button>
                 </div>
             </div>
             <div class="resource-card">
                 <div class="glassLocked" id="glassLocked">
-                    <p class="resource-name">Glas</p>
+                    <p class="resource-name"><img class="icon" src="images/glass.png" alt=""> Glas</p>
                     <p class="resource-name">Benötigt Glashütte</p>
                 </div>
                 <div class="glassUnlocked" id="glassUnlocked">
-                    <p class="resource-name">Glas</p>
+                    <p class="resource-name"><img class="icon" src="images/glass.png" alt=""> Glas</p>
                     <p class="resource-amount" id="glass-amount">0</p>
                     <button id="sell-glass">Glas verkaufen (50 Geld)</button>
                 </div>
