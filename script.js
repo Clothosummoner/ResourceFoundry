@@ -703,7 +703,3 @@ setInterval(function () {
 const autosaveTimer = setInterval(function () {
     saveGame();
 }, 10000);
-
-
-
-

@@ -3,3 +3,22 @@ Spiel Menü mit einstellungen etc
 truhen inventar loot system kämpfe gegner bosse raids
 quests/random events
 Schmiede für ausrüstungen/amboss 
+
+Playtest 25.11.2026:
+- Am Anfang dauert es relativ lange bis zur ersten Freischaltung, das ist okay
+- Sobald Sand freigeschaltet ist, kommt viel zu schnell viel zu viel Geld rein, man ist gefühlt durch
+  (ein Arbeiter hat sich schon nach ca. 10 Sekunden bezahlt gemacht: Sandarbeiter kostet 30, bringt 3 pro Sekunde)
+- Es fehlt ein Ziel. Im Gespräch wurde gefragt: "Kann man damit eine Stadt aufbauen?"
+
+Ideen daraus:
+- Lager-Limit mit Lagerausbau
+- Automatische Verkäufer, die im gleichen Takt arbeiten wie Holzfäller und Co.
+- Offline-Fortschritt
+- Eine Art Game Over oder ein Neustart mit Bonus (Prestige)
+- Ressourcen in Tiers: Tier 1 Rohstoffe (Holz, Stein, Sand), Tier 2 (Bretter, Ziegel, Glas), dann Tier 3, Tier 4 ...
+  Höhere Tiers werden aus mehreren Ressourcen der Stufe davor hergestellt
+- Endziel: eine besondere Fantasy-Ressource, für die man hunderte Tier-4-Ressourcen zusammenschmieden muss.
+  Wer sie hat, hat gewonnen
+- Kleine Story: Man hat von dieser Ressource gehört und arbeitet sich nach und nach dorthin
+- Soll sich wie Cookie Clicker lange ziehen
+- Später mehr Ressourcen und Richtung Fantasy
