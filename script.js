@@ -73,7 +73,7 @@ const machines = {
 
 }
 const storage = {
-    limit: 10,
+    limit: 500,
     upgradeCost: 200,
     costResource: 'money',
 }
