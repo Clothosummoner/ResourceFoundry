@@ -73,7 +73,7 @@ const machines = {
 
 }
 const storage = {
-    limit: 500,
+    limit: 10,
     upgradeCost: 200,
     costResource: 'money',
 }
@@ -692,15 +692,15 @@ gameMusic.addEventListener('ended', function () {
 setSelectedAmount(1, amount1Button); // Set default sell amount to 1 and activate the button
 setInterval(function () {
     if (worker.lumberjack.count > 0) {
-        resources.wood += worker.lumberjack.count * worker.lumberjack.productionRate;
+        resources.wood = Math.min(resources.wood + worker.lumberjack.count * worker.lumberjack.productionRate, storage.limit);
         updateResources();
     }
     if (worker.quarryWorker.count > 0) {
-        resources.stone += worker.quarryWorker.count * worker.quarryWorker.productionRate;
+        resources.stone = Math.min(resources.stone + worker.quarryWorker.count * worker.quarryWorker.productionRate, storage.limit);
         updateResources();
     }
     if (worker.sandWorker.count > 0) {
-        resources.sand += worker.sandWorker.count * worker.sandWorker.productionRate;
+        resources.sand = Math.min(resources.sand + worker.sandWorker.count * worker.sandWorker.productionRate, storage.limit);
         updateResources();
     }
     for (const machineType in machines) {
