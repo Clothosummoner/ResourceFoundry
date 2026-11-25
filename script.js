@@ -72,6 +72,11 @@ const machines = {
     },
 
 }
+const storage = {
+    limit: 500,
+    upgradeCost: 200,
+    costResource: 'money',
+}
 const unlocks = {
     wood: {
         unlocked: true,
@@ -315,8 +320,10 @@ function updateResources() {
 
 }
 function collectResource(resource) {
-    resources[resource]++;
-    updateResources();
+    if (resources[resource] < storage.limit) {
+        resources[resource]++;
+        updateResources();
+    }
 }
 function sellResource(resource) {
     const amount = Math.min(selectedAmount, resources[resource]);
@@ -367,8 +374,8 @@ function getMaxAffordableAmount(workerType) {
     return amount;
 }
 function unlockResource(resource) {
-    const payWith = unlocks[resource].costResource;   
-    const cost = unlocks[resource].cost;              
+    const payWith = unlocks[resource].costResource;
+    const cost = unlocks[resource].cost;
     if (resources[payWith] >= cost && !unlocks[resource].unlocked) {
         resources[payWith] -= cost;
         unlocks[resource].unlocked = true;

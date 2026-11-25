@@ -22,3 +22,34 @@ Ideen daraus:
 - Kleine Story: Man hat von dieser Ressource gehört und arbeitet sich nach und nach dorthin
 - Soll sich wie Cookie Clicker lange ziehen
 - Später mehr Ressourcen und Richtung Fantasy
+
+Weitere Ideen 25.11.2026:
+Lager
+- Getrennte Lager: eins für Ressourcen, eins für Ausrüstung und Gegenstände, eins für Artefakte
+- Arbeiter auch wieder verkaufen können (für weniger Geld)
+
+Schmiede / Amboss
+- Amboss muss erst freigeschaltet werden
+- Axt, Spitzhacke und Schaufel kann man später nicht mehr kaufen, sondern stellt sie am Amboss aus Ressourcen her
+- In der Schmiede Ausrüstung aus bestimmten Ressourcen herstellen
+
+Preise und Seltenheit
+- Preise hängen vom Tier ab, nicht von der einzelnen Ressource (z. B. alle Tier-1-Ressourcen 1 Gold, Tier 2 mehr usw.)
+- Seltenheitsstufen innerhalb der Tiers: normal, selten, episch, legendär
+- Bestimmte seltene Ressourcen gibt es nur von bestimmten Gegnern, Bossen, Händlern oder aus Truhen
+- Am Anfang kaum Chance auf seltene Ressourcen, später mehr durch Ausrüstung, Truhen, Kämpfe und Relikte
+
+Sammeln
+- Nur ein Klickfeld, man bekommt zufällig Holz, Stein oder Sand
+- Ausrüstung verändert die Wahrscheinlichkeiten (z. B. garantiert Holz)
+
+Artefakte / Relikte
+- Findet man in Truhen, sie geben Boni, z. B. 2 Ressourcen pro Klick statt 1
+- Relikt "Automatischer Verkäufer": Alles über einem Mindestbestand wird automatisch verkauft
+
+Mögliche Reihenfolge (grob):
+1. Wirtschaft: Lager-Limit, automatischer Verkauf, Offline-Fortschritt, Balancing
+2. Tiers und Endziel mit kleiner Story
+3. Schmiede und Ausrüstung
+4. Zufall und Seltenheit: Truhen, Artefakte, seltene Ressourcen
+5. Kämpfe, Gegner, Bosse, Raids
