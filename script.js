@@ -74,7 +74,7 @@ const machines = {
 }
 const storage = {
     limit: 500,
-    upgradeCost: 200,
+    upgradeCost: 350,
     costResource: 'money',
 }
 const unlocks = {
@@ -153,6 +153,8 @@ const glassUnlockedElement = document.getElementById('glassUnlocked');
 const axeStatusElement = document.getElementById('axe-amount');
 const pickaxeStatusElement = document.getElementById('pickaxe-amount');
 const shovelStatusElement = document.getElementById('shovel-amount');
+const storageLimitElement = document.getElementById('storage-limit');
+const storageCostElement = document.getElementById('storage-cost');
 const amountSlider = document.getElementById('amount-slider');
 const lockedItems = document.querySelectorAll('[data-requires]');
 const introScreen = document.getElementById('intro-screen');
@@ -214,6 +216,8 @@ function updateResources() {
     lumberjackCostElement.textContent = getTotalCost('lumberjack', getBuyAmount('lumberjack'));
     quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', getBuyAmount('quarryWorker'));
     sandWorkerCostElement.textContent = getTotalCost('sandWorker', getBuyAmount('sandWorker'));
+    storageLimitElement.textContent = storage.limit;
+    storageCostElement.textContent = storage.upgradeCost;
     if (tools.axe.owned) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
@@ -363,6 +367,15 @@ function buyWorker(workerType) {
         worker[workerType].count += amount;
         updateResources();
     }
+}
+function buyStorage() {
+    if (money >= storage.upgradeCost) {
+        storage.limit = storage.limit + 500;
+        money = money - storage.upgradeCost;
+        storage.upgradeCost = storage.upgradeCost * 2;
+        updateResources();
+    }
+
 }
 function getMaxAffordableAmount(workerType) {
     let amount = 0;
@@ -677,6 +690,11 @@ playButton.addEventListener('click', function () {
         gameMusicStarted = true;
     }
 
+});
+const buyStorageButton = document.getElementById('buy-storagelimit');
+buyStorageButton.addEventListener('click', function () {
+    buyStorage();
+    updateResources();
 });
 const menuButton = document.getElementById('nav-menu');
 menuButton.addEventListener('click', function () {
