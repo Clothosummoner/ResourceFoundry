@@ -12,12 +12,14 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 - Arbeiter einstellen, die automatisch produzieren, jeder weitere Arbeiter wird teurer
 - Werkzeuge kaufen, die die Produktion der passenden Arbeiter verdoppeln
 - Stein und Sand müssen erst freigeschaltet werden; passende Shop-Angebote erscheinen erst danach
+- **Lager:** Von jedem Rohstoff und Produkt passt nur eine begrenzte Menge ins Lager (anfangs 500). Die Anzeige zeigt `Menge/Limit` und wird rot, sobald das Lager voll ist
+- Das Lager lässt sich ausbauen: +500 Platz pro Stufe, jeder Ausbau kostet doppelt so viel wie der vorherige. Um Sand freizuschalten (1000 Stein), muss man das Lager zuerst ausbauen
 - **Maschinen**, jeweils mit Timer und Fortschrittsbalken:
   - Säge: 100 Holz → 20 Bretter in 60 Sekunden
   - Ofen: 150 Stein → 20 Ziegel in 90 Sekunden
   - Glashütte: 200 Sand → 20 Glas in 120 Sekunden
 - Verarbeitete Produkte bringen mehr Geld als ihre Rohstoffe, und jede neue Maschine lohnt sich mehr als die vorherige
-- Automatisches Speichern alle 10 Sekunden, manuelles Speichern und Zurücksetzen; auch laufende Maschinen werden mitgespeichert
+- Automatisches Speichern alle 10 Sekunden, manuelles Speichern und Zurücksetzen; auch laufende Maschinen und das ausgebaute Lager werden mitgespeichert
 
 ### Präsentation
 - Selbst gepixelte Icons für alle Rohstoffe, Produkte und Maschinen
@@ -35,10 +37,12 @@ Ein kleines Idle-Spiel im Browser: Sammle Rohstoffe, verkaufe sie, stelle Arbeit
 - Kosten steigen exponentiell: `Grundpreis × 1,15^Anzahl`
 - Shop-Elemente werden über `data-requires`-Attribute im HTML gesteuert
 - Maschinen laufen in der Spielschleife mit; Timer und Fortschrittsbalken werden aus Fortschritt und Dauer berechnet
+- Das Lager-Limit gilt überall, wo Rohstoffe dazukommen (Klicken, Arbeiter, Maschinen); `Math.min(Menge + Zuwachs, Limit)` sorgt dafür, dass nichts über das Limit hinausgeht
+- Die rote Anzeige bei vollem Lager wird mit `classList.toggle('full', Bedingung)` ein- und ausgeschaltet
 - Pixel-Art-Icons in 16×16 (Rohstoffe) und 32×32 (Maschinen) Pixeln, im Spiel einheitlich auf das Doppelte vergrößert, damit alle Pixel gleich groß sind; `image-rendering: pixelated` hält sie scharf, und ein helleres Feld dahinter sorgt für Kontrast auf den dunklen Karten
 - Verkaufspreise ausbalanciert: Verarbeiten lohnt sich, und jede Maschine bringt mehr Gewinn pro Minute als die vorherige
 - Musik über das `Audio`-Objekt: Das `ended`-Event startet das nächste Lied, mit `%` beginnt die Playlist danach wieder von vorn
-- Entwicklung mit Git in kleinen Commits; größere Funktionen (Design, Maschinen) baue ich auf eigenen Branches und merge sie danach in `master`
+- Entwicklung mit Git in kleinen Commits; größere Funktionen (Design, Maschinen, Lager) baue ich auf eigenen Branches und merge sie danach in `master`
 
 ## Über das Projekt
 
@@ -46,8 +50,10 @@ Ich programmiere ResourceFoundry, um mir Programmieren selbst beizubringen, und 
 
 ## Geplant
 
-- Lager-Limit mit ausbaubarem Lager
+- Lagerausbau, der neben Geld auch Rohstoffe kostet
 - Händler und automatischer Verkauf
+- Offline-Fortschritt: Die Arbeiter arbeiten weiter, während das Spiel geschlossen ist
+- Ressourcen in mehreren Stufen und ein großes Endziel
 - Einstellungen im Menü, z. B. Lautstärke
 - Quests und zufällige Ereignisse
 
