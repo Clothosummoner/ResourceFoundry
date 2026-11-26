@@ -203,12 +203,18 @@ function applyMute() {
 
 
 function updateResources() {
-    woodAmount.textContent = resources.wood;
-    stoneAmount.textContent = resources.stone;
-    sandAmount.textContent = resources.sand;
-    planksAmount.textContent = resources.planks;
-    bricksAmount.textContent = resources.bricks;
-    glassAmount.textContent = resources.glass;
+    woodAmount.textContent = resources.wood + "/" + storage.limit;
+    woodAmount.classList.toggle('full', resources.wood >= storage.limit);
+    stoneAmount.textContent = resources.stone + "/" + storage.limit;
+    stoneAmount.classList.toggle('full', resources.stone >= storage.limit);
+    sandAmount.textContent = resources.sand + "/" + storage.limit;
+    sandAmount.classList.toggle('full', resources.sand >= storage.limit);
+    planksAmount.textContent = resources.planks + "/" + storage.limit;
+    planksAmount.classList.toggle('full', resources.planks >= storage.limit);
+    bricksAmount.textContent = resources.bricks + "/" + storage.limit;
+    bricksAmount.classList.toggle('full', resources.bricks >= storage.limit);
+    glassAmount.textContent = resources.glass + "/" + storage.limit;
+    glassAmount.classList.toggle('full', resources.glass >= storage.limit);
     moneyAmount.textContent = money;
     lumberjackCountElement.textContent = worker.lumberjack.count;
     quarryWorkerCountElement.textContent = worker.quarryWorker.count;

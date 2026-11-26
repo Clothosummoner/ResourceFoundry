@@ -281,3 +281,7 @@ button {
     height: 64px;
     padding: 6px;
 }
+
+.full {
+    color: red;
+}
