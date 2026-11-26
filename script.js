@@ -459,7 +459,8 @@ function saveGame() {
         worker: worker,
         tools: tools,
         machines: machines,
-        unlocks: unlocks
+        unlocks: unlocks,
+        storage: storage
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
 }
@@ -498,6 +499,10 @@ function loadGame() {
             machines.glassWorks.unlocked = gameState.machines.glassWorks?.unlocked ?? false;
             machines.glassWorks.running = gameState.machines.glassWorks?.running ?? false;
             machines.glassWorks.progress = gameState.machines.glassWorks?.progress ?? 0;
+        }
+        if (gameState.storage) {
+            storage.limit = gameState.storage.limit ?? 500;
+            storage.upgradeCost = gameState.storage.upgradeCost ?? 350;
         }
 
         toolCheck();
