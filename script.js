@@ -446,7 +446,7 @@ function updateMachine(machineType) {
         machine.progress++;
         if (machine.progress >= machine.duration) {
             machine.running = false;
-            resources[machine.outputResource] += machine.outputAmount;
+            resources[machine.outputResource] = Math.min(resources[machine.outputResource] + machine.outputAmount, storage.limit);            
             machine.progress = 0;
         }
         updateResources();
