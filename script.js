@@ -72,10 +72,18 @@ const machines = {
     },
 
 }
+const resourceNames = {
+    money: 'Geld',
+    wood: 'Holz',
+    stone: 'Stein',
+    sand: 'Sand',
+    planks: 'Bretter',
+    bricks: 'Ziegel',
+    glass: 'Glas'
+};
 const storage = {
     limit: 500,
-    upgradeCost: 350,
-    costResource: 'money',
+    level: 0,
 }
 const unlocks = {
     wood: {
@@ -109,6 +117,19 @@ const tools = {
         workerType: 'sandWorker'
     },
 };
+const storageUpgrades = [
+    { limit: 500, price: { money: 0 } },
+    { limit: 1000, price: { money: 350 } },
+    { limit: 1500, price: { money: 700, wood: 200 } },
+    { limit: 2000, price: { money: 1500, wood: 500, stone: 300 } },
+    { limit: 2500, price: { money: 3000, wood: 1000, stone: 750 } },
+    { limit: 4000, price: { money: 5000, sand: 500 } },
+    { limit: 5000, price: { money: 5000, planks: 100 } },
+    { limit: 6000, price: { money: 5000, planks: 100, bricks: 50 } },
+    { limit: 7000, price: { money: 5000, planks: 200, bricks: 150 } },
+    { limit: 10000, price: { money: 10000, planks: 200, bricks: 200, glass: 200 } }
+];
+
 let money = 0;
 let selectedAmount = 1;
 let gameMusicStarted = false;
@@ -223,7 +244,19 @@ function updateResources() {
     quarryWorkerCostElement.textContent = getTotalCost('quarryWorker', getBuyAmount('quarryWorker'));
     sandWorkerCostElement.textContent = getTotalCost('sandWorker', getBuyAmount('sandWorker'));
     storageLimitElement.textContent = storage.limit;
-    storageCostElement.textContent = storage.upgradeCost;
+    const nextLevel = storageUpgrades[storage.level + 1];
+    if (nextLevel === undefined) {
+        storageCostElement.textContent = 'Maximale Stufe';
+    } else {
+        let costText = '';
+        for (const key in nextLevel.price) {
+            if (costText !== '') {
+                costText = costText + ', ';
+            }
+            costText = costText + nextLevel.price[key] + " " + resourceNames[key];
+        }
+        storageCostElement.textContent = costText;
+    }
     if (tools.axe.owned) {
         axeStatusElement.textContent = 'Gekauft';
     } else {
@@ -375,14 +408,34 @@ function buyWorker(workerType) {
     }
 }
 function buyStorage() {
-    if (money >= storage.upgradeCost) {
-        storage.limit = storage.limit + 500;
-        money = money - storage.upgradeCost;
-        storage.upgradeCost = storage.upgradeCost * 2;
-        updateResources();
+    const nextLevel = storageUpgrades[storage.level + 1];
+    if (nextLevel === undefined) {
+        return;
     }
-
+    for (const key in nextLevel.price) {
+        let playerAmount = money;
+        if (key === 'money') {
+            playerAmount = money;
+        } else {
+            playerAmount = resources[key];
+        }
+        if (playerAmount < nextLevel.price[key]) {
+            return;
+        }
+    }
+    for (const key in nextLevel.price) {
+        if (key === 'money') {
+            money = money - nextLevel.price[key];
+        } else {
+            resources[key] = resources[key] - nextLevel.price[key];
+        }
+    }
+    storage.level++;
+    storage.limit = nextLevel.limit;
+    updateResources();
 }
+
+
 function getMaxAffordableAmount(workerType) {
     let amount = 0;
     let total = 0;
@@ -452,7 +505,7 @@ function updateMachine(machineType) {
         machine.progress++;
         if (machine.progress >= machine.duration) {
             machine.running = false;
-            resources[machine.outputResource] = Math.min(resources[machine.outputResource] + machine.outputAmount, storage.limit);            
+            resources[machine.outputResource] = Math.min(resources[machine.outputResource] + machine.outputAmount, storage.limit);
             machine.progress = 0;
         }
         updateResources();
@@ -507,8 +560,8 @@ function loadGame() {
             machines.glassWorks.progress = gameState.machines.glassWorks?.progress ?? 0;
         }
         if (gameState.storage) {
-            storage.limit = gameState.storage.limit ?? 500;
-            storage.upgradeCost = gameState.storage.upgradeCost ?? 350;
+            storage.level = gameState.storage.level ?? 0;
+            storage.limit = storageUpgrades[storage.level].limit;
         }
 
         toolCheck();
